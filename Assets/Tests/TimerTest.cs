@@ -19,7 +19,7 @@ public class TimerTest
     }
 
     [Test]
-    public void shouldHaveSubscribeMethod()
+    public void shouldHaveNewDayEvent()
     {
         timer.OnNewDay += NotifyOnNewDay;
     }
