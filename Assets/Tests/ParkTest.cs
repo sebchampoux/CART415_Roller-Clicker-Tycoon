@@ -6,14 +6,18 @@ using UnityEngine.TestTools;
 
 public class ParkTest
 {
-    private Park _park; 
+    private Park _park;
+    private MockTimer _mockTimer;
 
     [SetUp]
     public void setupTest()
     {
-        GameObject parkGO = new GameObject();
-        parkGO.AddComponent<Park>();
-        _park = parkGO.GetComponent<Park>();
+        GameObject tempGameObject = new GameObject();
+        tempGameObject.AddComponent<Park>();
+        _park = tempGameObject.GetComponent<Park>();
+
+        tempGameObject.AddComponent<MockTimer>();
+        _mockTimer = tempGameObject.GetComponent<MockTimer>();
     }
 
     [Test]

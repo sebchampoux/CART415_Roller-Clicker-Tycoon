@@ -38,7 +38,7 @@ public class Timer : MonoBehaviour
         get { return _monthsPerYear; }
     }
 
-    private void Start()
+    public virtual void Start()
     {
         StartCoroutine(StartTimer());
     }
@@ -50,7 +50,7 @@ public class Timer : MonoBehaviour
             yield return new WaitForSeconds(DayDurationSeconds);
 
             _currentDay++;
-            OnNewDay?.Invoke(this, null);
+            InvokeNewDay();
 
             bool isNewMonth = _currentDay >= DaysPerMonth;
             bool isNewYear = _currentMonth >= MonthsPerYear;
@@ -58,13 +58,28 @@ public class Timer : MonoBehaviour
             {
                 _currentMonth++;
                 _currentDay = 0;
-                OnNewMonth?.Invoke(this, null);
+                InvokeNewMonth();
             }
             if (isNewYear)
             {
                 _currentMonth = 0;
-                OnNewYear?.Invoke(this, null);
+                InvokeNewYear();
             }
         }
+    }
+
+    protected void InvokeNewYear()
+    {
+        OnNewYear?.Invoke(this, null);
+    }
+
+    protected void InvokeNewMonth()
+    {
+        OnNewMonth?.Invoke(this, null);
+    }
+
+    protected void InvokeNewDay()
+    {
+        OnNewDay?.Invoke(this, null);
     }
 }
