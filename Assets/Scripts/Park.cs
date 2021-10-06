@@ -27,10 +27,10 @@ public class Park : MonoBehaviour
         private set { _admissionFee = Mathf.Max(0, value); }
     }
 
-    public void SpawnGuests()
+    public virtual void SpawnGuests(int numberOfGuests = 1)
     {
-        GuestsCount++;
-        Bankroll += AdmissionFee;
+        GuestsCount += numberOfGuests;
+        Bankroll += AdmissionFee * numberOfGuests;
     }
 
     public void SetBaseAdmissionFee(float newBaseAdmissionFee)
