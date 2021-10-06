@@ -60,4 +60,17 @@ public class ParkTest
         Assert.AreEqual(1, _park.GuestsCount);
         Assert.AreEqual(40f, _park.Bankroll);
     }
+
+    [Test]
+    public void shouldSpawnAdditionalGuestsIfRequired()
+    {
+        Assert.AreEqual(0, _park.GuestsCount);
+        Assert.AreEqual(0, _park.Bankroll);
+
+        _park.SetBaseAdmissionFee(40f);
+        _park.SpawnGuests(5);
+
+        Assert.AreEqual(5, _park.GuestsCount);
+        Assert.AreEqual(5f * 40f, _park.Bankroll);
+    }
 }
