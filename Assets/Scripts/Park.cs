@@ -37,4 +37,19 @@ public class Park : MonoBehaviour
     {
         AdmissionFee = newBaseAdmissionFee;
     }
+
+    public virtual void AddToBankroll(float amountToAdd)
+    {
+        Bankroll += amountToAdd;
+    }
+
+    public bool SpendMoney(float amountToSpend)
+    {
+        if (Bankroll < amountToSpend)
+        {
+            return false;
+        }
+        Bankroll -= amountToSpend;
+        return true;
+    }
 }

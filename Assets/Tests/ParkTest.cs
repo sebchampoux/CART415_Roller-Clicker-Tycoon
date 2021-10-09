@@ -73,4 +73,28 @@ public class ParkTest
         Assert.AreEqual(5, _park.GuestsCount);
         Assert.AreEqual(5f * 40f, _park.Bankroll);
     }
+
+    [Test]
+    public void shouldAddToBankrollCorrectly()
+    {
+        Assert.AreEqual(0f, _park.Bankroll);
+        _park.AddToBankroll(100f);
+        Assert.AreEqual(100f, _park.Bankroll);
+        _park.AddToBankroll(150f);
+        Assert.AreEqual(250f, _park.Bankroll);
+    }
+
+    [Test]
+    public void shouldRemoveFromBankrollCorrectly()
+    {
+        _park.AddToBankroll(100f);
+        Assert.AreEqual(100f, _park.Bankroll);
+
+        Assert.IsTrue(_park.SpendMoney(60f));
+        Assert.AreEqual(40f, _park.Bankroll);
+
+        // Not enough money left, transaction fails
+        Assert.IsFalse(_park.SpendMoney(60f));
+        Assert.AreEqual(40f, _park.Bankroll);
+    }
 }
