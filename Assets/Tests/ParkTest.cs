@@ -115,4 +115,14 @@ public class ParkTest
     {
         throw new UnityException("Not implemented");
     }
+
+    public void shouldHireEmployeeCorrectly()
+    {
+        throw new UnityException("Not implemented");
+    }
+
+    public void shouldFurloughEmployeeCorrectly()
+    {
+        throw new UnityException("Not implemented");
+    }
 }
