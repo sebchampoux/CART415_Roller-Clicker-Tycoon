@@ -9,6 +9,8 @@ public class MockPark : Park
     private float _lastCallToAddToBankroll = -1f;
     private float _lastCallToSpendMoney = -1f;
     private AdvertisingCampaign _lastTerminatedCampaign = null;
+    private AdvertisingCampaign _lastStartedCampaign = null;
+    private SocialMediaManager _lastFurloughedEmployee = null;
 
     public override void SpawnGuests(int numberOfGuests = 1)
     {
@@ -52,5 +54,27 @@ public class MockPark : Park
     {
         base.StopAdCampaign(campaign);
         _lastTerminatedCampaign = campaign;
+    }
+
+    public override void StartAdCampaign(AdvertisingCampaign campaign)
+    {
+        base.StartAdCampaign(campaign);
+        _lastStartedCampaign = campaign;
+    }
+
+    public bool LastStartedCampaignWas(AdvertisingCampaign campaign)
+    {
+        return _lastStartedCampaign == campaign;
+    }
+
+    public override void FurloughEmployee(SocialMediaManager employee)
+    {
+        base.FurloughEmployee(employee);
+        _lastFurloughedEmployee = employee;
+    }
+
+    public bool LastFurloughedEmployeeWas(SocialMediaManager employee)
+    {
+        return _lastFurloughedEmployee == employee;
     }
 }

@@ -55,13 +55,18 @@ public class Park : MonoBehaviour
         return true;
     }
 
-    public void StartAdCampaign(AdvertisingCampaign campaign)
+    public virtual void StartAdCampaign(AdvertisingCampaign campaign)
     {
-        _runningCampaigns.Add(campaign);
+        throw new System.NotImplementedException();
     }
 
     public virtual void StopAdCampaign(AdvertisingCampaign campaign)
     {
-        _runningCampaigns.Remove(campaign);
+        throw new System.NotImplementedException();
+    }
+
+    public virtual void FurloughEmployee(SocialMediaManager employee)
+    {
+        throw new System.NotImplementedException();
     }
 }
