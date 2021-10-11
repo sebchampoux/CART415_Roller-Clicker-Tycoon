@@ -97,4 +97,22 @@ public class ParkTest
         Assert.IsFalse(_park.SpendMoney(60f));
         Assert.AreEqual(40f, _park.Bankroll);
     }
+
+    [Test]
+    public void shouldComputeAdmissionFeeCorrectly()
+    {
+        throw new UnityException("Not implemented");
+    }
+
+    [Test]
+    public void shouldComputeSpawnRateCorrectly()
+    {
+        throw new UnityException("Not implemented");
+    }
+
+    [Test]
+    public void shouldTerminateAdCampaignCorrectly()
+    {
+        throw new UnityException("Not implemented");
+    }
 }

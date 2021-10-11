@@ -37,16 +37,9 @@ public class RideTest
     [Test]
     public void shouldAutomaticallySpawnGuestsEachDay()
     {
-        Assert.AreEqual(0, _park.NumberOfCallsToSpawn);
-
         _timer.OnNewDay += _ride.OnNewDay;
 
         _timer.ElapseDay();
-        Assert.AreEqual(1, _park.NumberOfCallsToSpawn);
-        Assert.IsTrue(_park.SpawnLastCalledWith(_ride.NumberOfGuestsToSpawn));
-
-        _timer.ElapseDay();
-        Assert.AreEqual(2, _park.NumberOfCallsToSpawn);
         Assert.IsTrue(_park.SpawnLastCalledWith(_ride.NumberOfGuestsToSpawn));
     }
 }

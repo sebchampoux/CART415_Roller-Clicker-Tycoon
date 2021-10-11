@@ -7,21 +7,23 @@ public class MockPark : Park
 {
     private int _lastSpawnNbrOfGuests = -1;
     private float _lastCallToAddToBankroll = -1f;
-    public int NumberOfCallsToSpawn { get; private set; } = 0;
+    private float _lastCallToSpendMoney = -1f;
+    private AdvertisingCampaign _lastTerminatedCampaign = null;
 
     public override void SpawnGuests(int numberOfGuests = 1)
     {
-        NumberOfCallsToSpawn++;
+        base.SpawnGuests();
         _lastSpawnNbrOfGuests = numberOfGuests;
     }
 
     public bool SpawnLastCalledWith(int expectedNumberOfGuests)
     {
-        return NumberOfCallsToSpawn > 0 && expectedNumberOfGuests == _lastSpawnNbrOfGuests;
+        return expectedNumberOfGuests == _lastSpawnNbrOfGuests;
     }
 
     public override void AddToBankroll(float amountToAdd)
     {
+        base.AddToBankroll(amountToAdd);
         _lastCallToAddToBankroll = amountToAdd;
     }
 
@@ -30,9 +32,25 @@ public class MockPark : Park
         return expectedProfit == _lastCallToAddToBankroll;
     }
 
-    public void ResetMock()
+    public override bool SpendMoney(float amountToSpend)
     {
-        _lastSpawnNbrOfGuests = -1;
-        _lastCallToAddToBankroll = -1;
+        _lastCallToSpendMoney = amountToSpend;
+        return base.SpendMoney(amountToSpend);
+    }
+
+    public bool SpendMoneyLastCalledWith(float expectedSpending)
+    {
+        return expectedSpending == _lastCallToSpendMoney;
+    }
+
+    public bool StopCampaignLastCalledWith(AdvertisingCampaign adCampaign)
+    {
+        return adCampaign == _lastTerminatedCampaign;
+    }
+
+    public override void StopAdCampaign(AdvertisingCampaign campaign)
+    {
+        base.StopAdCampaign(campaign);
+        _lastTerminatedCampaign = campaign;
     }
 }

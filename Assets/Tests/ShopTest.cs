@@ -44,9 +44,5 @@ public class ShopTest
         float expectedProfit = _park.GuestsCount * _shop.ProfitPerItem;
         _timer.ElapseDay();
         Assert.IsTrue(_park.AddBankrollLastCalledWith(expectedProfit));
-
-        _park.ResetMock();
-        _timer.ElapseDay();
-        Assert.IsTrue(_park.AddBankrollLastCalledWith(expectedProfit));
     }
 }

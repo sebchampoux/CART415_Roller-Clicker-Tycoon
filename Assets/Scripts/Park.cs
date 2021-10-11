@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class Park : MonoBehaviour
 {
+    [SerializeField] private float _admissionFee = 0f;
+ 
     private int _guestsCount = 0;
     private float _bankroll = 0f;
-    [SerializeField] private float _admissionFee = 0f;
+    private IList<AdvertisingCampaign> _runningCampaigns = new List<AdvertisingCampaign>();
 
     public int GuestsCount
     {
@@ -43,7 +45,7 @@ public class Park : MonoBehaviour
         Bankroll += amountToAdd;
     }
 
-    public bool SpendMoney(float amountToSpend)
+    public virtual bool SpendMoney(float amountToSpend)
     {
         if (Bankroll < amountToSpend)
         {
@@ -51,5 +53,15 @@ public class Park : MonoBehaviour
         }
         Bankroll -= amountToSpend;
         return true;
+    }
+
+    public void StartAdCampaign(AdvertisingCampaign campaign)
+    {
+        _runningCampaigns.Add(campaign);
+    }
+
+    public virtual void StopAdCampaign(AdvertisingCampaign campaign)
+    {
+        _runningCampaigns.Remove(campaign);
     }
 }
