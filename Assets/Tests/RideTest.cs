@@ -25,7 +25,6 @@ public class RideTest
         _park = tempGameObject.GetComponent<MockPark>();
 
         _ride.Park = _park;
-        _ride.Timer = _timer;
     }
 
     [Test]

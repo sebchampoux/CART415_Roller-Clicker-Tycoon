@@ -11,7 +11,6 @@ public class Ride : MonoBehaviour
     public int NumberOfGuestsToSpawn { get; }
 
     public Park Park { get; set; }
-    public Timer Timer { get; set; }
 
     public void OnNewDay(object sender, System.EventArgs e)
     {

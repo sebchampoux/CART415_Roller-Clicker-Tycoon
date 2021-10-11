@@ -25,7 +25,6 @@ public class AdCampaignTest
         _park = tempGameObject.GetComponent<MockPark>();
 
         _adCampaign.Park = _park;
-        _adCampaign.Timer = _timer;
 
         _timer.OnNewMonth += _adCampaign.OnNewMonth;
     }

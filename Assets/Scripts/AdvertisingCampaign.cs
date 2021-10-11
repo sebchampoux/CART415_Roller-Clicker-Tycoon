@@ -9,7 +9,6 @@ public class AdvertisingCampaign : MonoBehaviour
     [SerializeField] private float _admissionFeeRebate = 1f;
 
     public Park Park { get; set; }
-    public Timer Timer { get; set; }
     public float MonthlyCost
     {
         get { return _monthlyCost; }

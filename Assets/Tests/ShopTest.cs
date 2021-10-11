@@ -25,7 +25,6 @@ public class ShopTest
         _park = tempGameObject.GetComponent<MockPark>();
 
         _shop.Park = _park;
-        _shop.Timer = _timer;
     }
 
     [Test]
