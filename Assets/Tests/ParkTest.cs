@@ -213,6 +213,20 @@ public class ParkTest
         Assert.AreEqual(ride, ridesAfterAdd.Current);
     }
 
+    [Test]
+    public void shouldAddShopCorrectly()
+    {
+        Shop shop = new Shop();
+
+        IEnumerator<Shop> shopsBeforeAdd = _park.Shops.GetEnumerator();
+        Assert.IsFalse(shopsBeforeAdd.MoveNext());
+
+        _park.AddNewShop(shop);
+        IEnumerator<Shop> shopsAfterAdd = _park.Shops.GetEnumerator();
+        Assert.IsTrue(shopsAfterAdd.MoveNext());
+        Assert.AreEqual(shop, shopsAfterAdd.Current);
+    }
+
     public class MockAdCampaign : IAdvertisingCampaign
     {
 

@@ -14,6 +14,7 @@ public class Park : MonoBehaviour
     private IList<IAdvertisingCampaign> _runningCampaigns = new List<IAdvertisingCampaign>();
     private IList<SocialMediaManager> _employees = new List<SocialMediaManager>();
     private IList<IRide> _rides = new List<IRide>();
+    private IList<Shop> _shops = new List<Shop>();
 
     public IEnumerable<IAdvertisingCampaign> AdvertisingCampaigns
     {
@@ -27,6 +28,11 @@ public class Park : MonoBehaviour
     public IEnumerable<IRide> Rides
     {
         get { return _rides; }
+    }
+
+    public IEnumerable<Shop> Shops
+    {
+        get { return _shops; }
     }
 
     public int GuestsCount
@@ -145,5 +151,10 @@ public class Park : MonoBehaviour
     {
         _rides.Add(ride);
         ComputeAdmissionFee();
+    }
+
+    public void AddNewShop(Shop shop)
+    {
+        _shops.Add(shop);
     }
 }
