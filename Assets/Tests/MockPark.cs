@@ -8,9 +8,10 @@ public class MockPark : Park
     private int _lastSpawnNbrOfGuests = -1;
     private float _lastCallToAddToBankroll = -1f;
     private float _lastCallToSpendMoney = -1f;
-    private AdvertisingCampaign _lastTerminatedCampaign = null;
-    private AdvertisingCampaign _lastStartedCampaign = null;
+    private IAdvertisingCampaign _lastTerminatedCampaign = null;
+    private IAdvertisingCampaign _lastStartedCampaign = null;
     private SocialMediaManager _lastFurloughedEmployee = null;
+    private bool _startAdCampaignWasCalled = false;
 
     public override void SpawnGuests(int numberOfGuests = 1)
     {
@@ -34,6 +35,11 @@ public class MockPark : Park
         return expectedProfit == _lastCallToAddToBankroll;
     }
 
+    public bool StartAdCampaignWasCalled()
+    {
+        return _startAdCampaignWasCalled;
+    }
+
     public override bool SpendMoney(float amountToSpend)
     {
         _lastCallToSpendMoney = amountToSpend;
@@ -45,24 +51,25 @@ public class MockPark : Park
         return expectedSpending == _lastCallToSpendMoney;
     }
 
-    public bool StopCampaignLastCalledWith(AdvertisingCampaign adCampaign)
+    public bool StopCampaignLastCalledWith(IAdvertisingCampaign adCampaign)
     {
         return adCampaign == _lastTerminatedCampaign;
     }
 
-    public override void StopAdCampaign(AdvertisingCampaign campaign)
+    public override void StopAdCampaign(IAdvertisingCampaign campaign)
     {
         base.StopAdCampaign(campaign);
         _lastTerminatedCampaign = campaign;
     }
 
-    public override void StartAdCampaign(AdvertisingCampaign campaign)
+    public override void StartAdCampaign(IAdvertisingCampaign campaign)
     {
         base.StartAdCampaign(campaign);
         _lastStartedCampaign = campaign;
+        _startAdCampaignWasCalled = true;
     }
 
-    public bool LastStartedCampaignWas(AdvertisingCampaign campaign)
+    public bool LastStartedCampaignWas(IAdvertisingCampaign campaign)
     {
         return _lastStartedCampaign == campaign;
     }

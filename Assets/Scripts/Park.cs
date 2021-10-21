@@ -5,11 +5,28 @@ using UnityEngine;
 
 public class Park : MonoBehaviour
 {
-    [SerializeField] private float _admissionFee = 0f;
- 
+    [SerializeField] private float _baseAdmissionFee = 10f;
+    private float _admissionFee = 10f;
+    private float _computedSpawnRate = 1f;
     private int _guestsCount = 0;
     private float _bankroll = 0f;
-    private IList<AdvertisingCampaign> _runningCampaigns = new List<AdvertisingCampaign>();
+    private IList<IAdvertisingCampaign> _runningCampaigns = new List<IAdvertisingCampaign>();
+    private IList<SocialMediaManager> _employees = new List<SocialMediaManager>();
+    private IList<IRide> _rides = new List<IRide>();
+
+    public IEnumerable<IAdvertisingCampaign> AdvertisingCampaigns
+    {
+        get { return _runningCampaigns; }
+    }
+    public IEnumerable<SocialMediaManager> Employees
+    {
+        get { return _employees; }
+    }
+
+    public IEnumerable<IRide> Rides
+    {
+        get { return _rides; }
+    }
 
     public int GuestsCount
     {
@@ -23,21 +40,64 @@ public class Park : MonoBehaviour
         private set { _bankroll = Mathf.Max(0, value); }
     }
 
+    public float BaseAdmissionFee
+    {
+        get { return _baseAdmissionFee; }
+        set
+        {
+            _baseAdmissionFee = Mathf.Max(0f, value);
+            ComputeAdmissionFee();
+        }
+    }
+
     public float AdmissionFee
     {
         get { return _admissionFee; }
-        private set { _admissionFee = Mathf.Max(0, value); }
+    }
+
+    public float SpawnRate
+    {
+        get
+        {
+            return _computedSpawnRate;
+        }
+    }
+
+    public void Start()
+    {
+        ComputeAdmissionFee();
+        ComputeSpawnRate();
+    }
+
+    private void ComputeSpawnRate()
+    {
+        float spawnRate = 1f;
+        foreach (IAdvertisingCampaign campaign in _runningCampaigns)
+        {
+            spawnRate *= campaign.SpawnRateIncrease;
+        }
+        _computedSpawnRate = spawnRate;
+    }
+
+    private void ComputeAdmissionFee()
+    {
+        float contributionFromRides = 0f;
+        float rebateFromAds = 0f;
+        foreach (IRide ride in _rides)
+        {
+            contributionFromRides += ride.ContributionToAdmissionFee;
+        }
+        foreach (IAdvertisingCampaign campaign in _runningCampaigns)
+        {
+            rebateFromAds += campaign.AdmissionFeeRebate;
+        }
+        _admissionFee = BaseAdmissionFee + contributionFromRides - rebateFromAds;
     }
 
     public virtual void SpawnGuests(int numberOfGuests = 1)
     {
-        GuestsCount += numberOfGuests;
+        GuestsCount += Mathf.FloorToInt((float) numberOfGuests * SpawnRate);
         Bankroll += AdmissionFee * numberOfGuests;
-    }
-
-    public void SetBaseAdmissionFee(float newBaseAdmissionFee)
-    {
-        AdmissionFee = newBaseAdmissionFee;
     }
 
     public virtual void AddToBankroll(float amountToAdd)
@@ -55,18 +115,33 @@ public class Park : MonoBehaviour
         return true;
     }
 
-    public virtual void StartAdCampaign(AdvertisingCampaign campaign)
+    public virtual void StartAdCampaign(IAdvertisingCampaign campaign)
     {
-        throw new System.NotImplementedException();
+        _runningCampaigns.Add(campaign);
+        ComputeAdmissionFee();
+        ComputeSpawnRate();
     }
 
-    public virtual void StopAdCampaign(AdvertisingCampaign campaign)
+    public virtual void StopAdCampaign(IAdvertisingCampaign campaign)
     {
-        throw new System.NotImplementedException();
+        _runningCampaigns.Remove(campaign);
+        ComputeAdmissionFee();
+        ComputeSpawnRate();
+    }
+
+    public void HireEmployee(SocialMediaManager employee)
+    {
+        _employees.Add(employee);
     }
 
     public virtual void FurloughEmployee(SocialMediaManager employee)
     {
-        throw new System.NotImplementedException();
+        _employees.Remove(employee);
+    }
+
+    public void AddNewRide(IRide ride)
+    {
+        _rides.Add(ride);
+        ComputeAdmissionFee();
     }
 }

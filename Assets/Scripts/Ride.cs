@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ride : MonoBehaviour
+public class Ride : MonoBehaviour, IRide
 {
     [SerializeField] private float _contributionToAdmissionFee = -1f;
     [SerializeField] private int _numberOfGuestsToSpawn = 1;
