@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shop : MonoBehaviour
+public class Shop : MonoBehaviour, IUpdatesDaily
 {
     [SerializeField] private float _profitPerItem = 1f;
 

@@ -6,6 +6,7 @@ using UnityEngine;
 public class Park : MonoBehaviour
 {
     [SerializeField] private float _baseAdmissionFee = 10f;
+
     private float _admissionFee = 10f;
     private float _computedSpawnRate = 1f;
     private int _guestsCount = 0;
@@ -91,7 +92,7 @@ public class Park : MonoBehaviour
         {
             rebateFromAds += campaign.AdmissionFeeRebate;
         }
-        _admissionFee = BaseAdmissionFee + contributionFromRides - rebateFromAds;
+        _admissionFee = Mathf.Max(0f, BaseAdmissionFee + contributionFromRides - rebateFromAds);
     }
 
     public virtual void SpawnGuests(int numberOfGuests = 1)
@@ -118,6 +119,7 @@ public class Park : MonoBehaviour
     public virtual void StartAdCampaign(IAdvertisingCampaign campaign)
     {
         _runningCampaigns.Add(campaign);
+
         ComputeAdmissionFee();
         ComputeSpawnRate();
     }

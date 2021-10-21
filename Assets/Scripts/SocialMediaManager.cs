@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SocialMediaManager : MonoBehaviour
+public class SocialMediaManager : MonoBehaviour, IUpdatesYearly, IUpdatesMonthly
 {
     public AdvertisingCampaign[] _possibleAdCampaigns;
     public Park Park { get; set; }

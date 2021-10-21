@@ -1,13 +1,11 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 public class ParkTest
 {
     private Park _park;
-    private MockTimer _mockTimer;
 
     [SetUp]
     public void setupTest()
@@ -15,9 +13,6 @@ public class ParkTest
         GameObject tempGameObject = new GameObject();
         tempGameObject.AddComponent<Park>();
         _park = tempGameObject.GetComponent<Park>();
-
-        tempGameObject.AddComponent<MockTimer>();
-        _mockTimer = tempGameObject.GetComponent<MockTimer>();
     }
 
     [Test]
@@ -119,6 +114,11 @@ public class ParkTest
 
         _park.StopAdCampaign(a2);
         Assert.AreEqual(20f, _park.AdmissionFee);
+
+        // The admission fee shouldn't be less than 0 (we shouldn't pay guests to enter the park lol)
+        IAdvertisingCampaign a3 = new MockAdCampaign(100f, 0f);
+        _park.StartAdCampaign(a3);
+        Assert.AreEqual(0f, _park.AdmissionFee);
     }
 
     [Test]
@@ -227,6 +227,7 @@ public class ParkTest
 
         public float AdmissionFeeRebate { get => _afr; }
         public float SpawnRateIncrease { get => _sri; }
+        public void OnNewMonth(object sender, EventArgs e) { /* Doesn't matter for this mock */ }
     }
 
     public class MockRide : IRide
@@ -241,5 +242,6 @@ public class ParkTest
 
         public float ContributionToAdmissionFee => _ctaf;
         public int NumberOfGuestsToSpawn => _ngs;
+        public void OnNewDay(object sender, EventArgs e) { /* Doesn't matter for this mock */ }
     }
 }
