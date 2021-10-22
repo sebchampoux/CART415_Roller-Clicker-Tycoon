@@ -100,14 +100,14 @@ public class ParkTest
         _park.BaseAdmissionFee = 10f;
         Assert.AreEqual(10f, _park.AdmissionFee);
 
-        IRide ride1 = new MockRide(5f);
-        IRide ride2 = new MockRide(10f);
+        Ride ride1 = CreateMockRide(5f);
+        Ride ride2 = CreateMockRide(10f);
         _park.AddNewRide(ride1);
         _park.AddNewRide(ride2);
         Assert.AreEqual(25f, _park.AdmissionFee);
 
-        IAdvertisingCampaign a1 = new MockAdCampaign(5f, 0f);
-        IAdvertisingCampaign a2 = new MockAdCampaign(2f, 0f);
+        AdvertisingCampaign a1 = CreateAdCampaign(5f, 0f);
+        AdvertisingCampaign a2 = CreateAdCampaign(2f, 0f);
         _park.StartAdCampaign(a1);
         _park.StartAdCampaign(a2);
         Assert.AreEqual(18f, _park.AdmissionFee);
@@ -116,7 +116,7 @@ public class ParkTest
         Assert.AreEqual(20f, _park.AdmissionFee);
 
         // The admission fee shouldn't be less than 0 (we shouldn't pay guests to enter the park lol)
-        IAdvertisingCampaign a3 = new MockAdCampaign(100f, 0f);
+        AdvertisingCampaign a3 = CreateAdCampaign(100f, 0f);
         _park.StartAdCampaign(a3);
         Assert.AreEqual(0f, _park.AdmissionFee);
     }
@@ -135,15 +135,16 @@ public class ParkTest
         Assert.AreEqual(1, _park.GuestsCount);
 
         // Spawn rate will be 1.5 * 1.25 = 1.875
-        MockAdCampaign campaign2 = new MockAdCampaign(0f, 1.25f);
-        _park.StartAdCampaign(new MockAdCampaign(0f, 1.5f));
-        _park.StartAdCampaign(campaign2);
+        AdvertisingCampaign adCampaign1 = CreateAdCampaign(0f, 1.5f);
+        AdvertisingCampaign adCampaign2 = CreateAdCampaign(0f, 1.25f);
+        _park.StartAdCampaign(adCampaign1);
+        _park.StartAdCampaign(adCampaign2);
         Assert.AreEqual(1.875f, _park.SpawnRate);
 
         _park.SpawnGuests(5); // 5 * 1.875 = 9.375 => 9 guests spawned
         Assert.AreEqual(10, _park.GuestsCount);
 
-        _park.StopAdCampaign(campaign2);
+        _park.StopAdCampaign(adCampaign2);
         Assert.AreEqual(1.5f, _park.SpawnRate);
         _park.SpawnGuests(2);
         Assert.AreEqual(13, _park.GuestsCount);
@@ -154,11 +155,11 @@ public class ParkTest
     {
         AdvertisingCampaign campaign = new AdvertisingCampaign();
 
-        IEnumerator<IAdvertisingCampaign> campaigns = _park.AdvertisingCampaigns.GetEnumerator();
+        IEnumerator<AdvertisingCampaign> campaigns = _park.AdvertisingCampaigns.GetEnumerator();
         Assert.IsFalse(campaigns.MoveNext());
 
         _park.StartAdCampaign(campaign);
-        IEnumerator<IAdvertisingCampaign> campaignsAfterAdd = _park.AdvertisingCampaigns.GetEnumerator();
+        IEnumerator<AdvertisingCampaign> campaignsAfterAdd = _park.AdvertisingCampaigns.GetEnumerator();
         Assert.IsTrue(campaignsAfterAdd.MoveNext());
         Assert.AreEqual(campaign, campaignsAfterAdd.Current);
     }
@@ -170,7 +171,7 @@ public class ParkTest
 
         _park.StartAdCampaign(campaign);
         _park.StopAdCampaign(campaign);
-        IEnumerator<IAdvertisingCampaign> campaignsAfterRemove = _park.AdvertisingCampaigns.GetEnumerator();
+        IEnumerator<AdvertisingCampaign> campaignsAfterRemove = _park.AdvertisingCampaigns.GetEnumerator();
         Assert.IsFalse(campaignsAfterRemove.MoveNext());
     }
 
@@ -204,11 +205,11 @@ public class ParkTest
     {
         Ride ride = new Ride();
 
-        IEnumerator<IRide> rides = _park.Rides.GetEnumerator();
+        IEnumerator<Ride> rides = _park.Rides.GetEnumerator();
         Assert.IsFalse(rides.MoveNext());
 
         _park.AddNewRide(ride);
-        IEnumerator<IRide> ridesAfterAdd = _park.Rides.GetEnumerator();
+        IEnumerator<Ride> ridesAfterAdd = _park.Rides.GetEnumerator();
         Assert.IsTrue(ridesAfterAdd.MoveNext());
         Assert.AreEqual(ride, ridesAfterAdd.Current);
     }
@@ -227,35 +228,20 @@ public class ParkTest
         Assert.AreEqual(shop, shopsAfterAdd.Current);
     }
 
-    public class MockAdCampaign : IAdvertisingCampaign
+    private static AdvertisingCampaign CreateAdCampaign(float rebateToAdmissionFee, float spawnRateIncrease)
     {
-
-        public float _afr;
-        public float _sri;
-
-        public MockAdCampaign(float afr, float sri)
-        {
-            _afr = afr;
-            _sri = sri;
-        }
-
-        public float AdmissionFeeRebate { get => _afr; }
-        public float SpawnRateIncrease { get => _sri; }
-        public void OnNewMonth(object sender, EventArgs e) { /* Doesn't matter for this mock */ }
+        GameObject temp = new GameObject();
+        temp.AddComponent<AdvertisingCampaign>();
+        temp.GetComponent<AdvertisingCampaign>().SpawnRateIncrease = spawnRateIncrease;
+        temp.GetComponent<AdvertisingCampaign>().AdmissionFeeRebate = rebateToAdmissionFee;
+        return temp.GetComponent<AdvertisingCampaign>();
     }
 
-    public class MockRide : IRide
+    private static Ride CreateMockRide(float contributionToAdmFee)
     {
-        public float _ctaf;
-        public int _ngs;
-
-        public MockRide(float ctaf)
-        {
-            _ctaf = ctaf;
-        }
-
-        public float ContributionToAdmissionFee => _ctaf;
-        public int NumberOfGuestsToSpawn => _ngs;
-        public void OnNewDay(object sender, EventArgs e) { /* Doesn't matter for this mock */ }
+        GameObject temp = new GameObject();
+        temp.AddComponent<Ride>();
+        temp.GetComponent<Ride>().ContributionToAdmissionFee = contributionToAdmFee;
+        return temp.GetComponent<Ride>();
     }
 }

@@ -6,17 +6,21 @@ using UnityEngine;
 public class Park : MonoBehaviour
 {
     [SerializeField] private float _baseAdmissionFee = 10f;
+    [SerializeField] private Timer _timer;
 
     private float _admissionFee = 10f;
     private float _computedSpawnRate = 1f;
     private int _guestsCount = 0;
     private float _bankroll = 0f;
-    private IList<IAdvertisingCampaign> _runningCampaigns = new List<IAdvertisingCampaign>();
+    private IList<AdvertisingCampaign> _runningCampaigns = new List<AdvertisingCampaign>();
     private IList<SocialMediaManager> _employees = new List<SocialMediaManager>();
-    private IList<IRide> _rides = new List<IRide>();
+    private IList<Ride> _rides = new List<Ride>();
     private IList<Shop> _shops = new List<Shop>();
 
-    public IEnumerable<IAdvertisingCampaign> AdvertisingCampaigns
+    public event EventHandler OnGuestsCountChange;
+    public event EventHandler OnBankrollChange;
+
+    public IEnumerable<AdvertisingCampaign> AdvertisingCampaigns
     {
         get { return _runningCampaigns; }
     }
@@ -25,7 +29,7 @@ public class Park : MonoBehaviour
         get { return _employees; }
     }
 
-    public IEnumerable<IRide> Rides
+    public IEnumerable<Ride> Rides
     {
         get { return _rides; }
     }
@@ -38,13 +42,21 @@ public class Park : MonoBehaviour
     public int GuestsCount
     {
         get { return _guestsCount; }
-        private set { _guestsCount = Mathf.Max(0, value); }
+        private set
+        {
+            _guestsCount = Mathf.Max(0, value);
+            OnGuestsCountChange?.Invoke(this, null);
+        }
     }
 
     public float Bankroll
     {
         get { return _bankroll; }
-        private set { _bankroll = Mathf.Max(0, value); }
+        private set
+        {
+            _bankroll = Mathf.Max(0, value);
+            OnBankrollChange?.Invoke(this, null);
+        }
     }
 
     public float BaseAdmissionFee
@@ -79,7 +91,7 @@ public class Park : MonoBehaviour
     private void ComputeSpawnRate()
     {
         float spawnRate = 1f;
-        foreach (IAdvertisingCampaign campaign in _runningCampaigns)
+        foreach (AdvertisingCampaign campaign in _runningCampaigns)
         {
             spawnRate *= campaign.SpawnRateIncrease;
         }
@@ -90,11 +102,11 @@ public class Park : MonoBehaviour
     {
         float contributionFromRides = 0f;
         float rebateFromAds = 0f;
-        foreach (IRide ride in _rides)
+        foreach (Ride ride in _rides)
         {
             contributionFromRides += ride.ContributionToAdmissionFee;
         }
-        foreach (IAdvertisingCampaign campaign in _runningCampaigns)
+        foreach (AdvertisingCampaign campaign in _runningCampaigns)
         {
             rebateFromAds += campaign.AdmissionFeeRebate;
         }
@@ -103,7 +115,7 @@ public class Park : MonoBehaviour
 
     public virtual void SpawnGuests(int numberOfGuests = 1)
     {
-        GuestsCount += Mathf.FloorToInt((float) numberOfGuests * SpawnRate);
+        GuestsCount += Mathf.FloorToInt((float)numberOfGuests * SpawnRate);
         Bankroll += AdmissionFee * numberOfGuests;
     }
 
@@ -122,39 +134,66 @@ public class Park : MonoBehaviour
         return true;
     }
 
-    public virtual void StartAdCampaign(IAdvertisingCampaign campaign)
+    public virtual void StartAdCampaign(AdvertisingCampaign campaignPrefab)
     {
-        _runningCampaigns.Add(campaign);
-
+        AdvertisingCampaign campaign = Instantiate(campaignPrefab);
+        campaign.transform.parent = transform;
+        _timer.OnNewMonth += campaign.OnNewMonth;
         ComputeAdmissionFee();
         ComputeSpawnRate();
     }
 
-    public virtual void StopAdCampaign(IAdvertisingCampaign campaign)
+    public virtual void StopAdCampaign(AdvertisingCampaign campaign)
     {
+        _timer.OnNewMonth -= campaign.OnNewMonth;
         _runningCampaigns.Remove(campaign);
+        Destroy(campaign);
         ComputeAdmissionFee();
         ComputeSpawnRate();
     }
 
-    public void HireEmployee(SocialMediaManager employee)
+    public void HireEmployee(SocialMediaManager employeePrefab)
     {
-        _employees.Add(employee);
+        SocialMediaManager employee = Instantiate(employeePrefab);
+        _timer.OnNewMonth += employee.OnNewMonth;
+        _timer.OnNewYear += employee.OnNewYear;
+        employee.transform.parent = transform;
     }
 
     public virtual void FurloughEmployee(SocialMediaManager employee)
     {
+        _timer.OnNewYear -= employee.OnNewYear;
+        _timer.OnNewMonth -= employee.OnNewMonth;
         _employees.Remove(employee);
+        Destroy(employee);
     }
 
-    public void AddNewRide(IRide ride)
+    public void AddNewRide(Ride ridePrefab)
     {
-        _rides.Add(ride);
+        if (Bankroll < ridePrefab.RideCost)
+        {
+            return;
+        }
+        SpendMoney(ridePrefab.RideCost);
+
+        Ride newRide = Instantiate(ridePrefab);
+        newRide.Park = this;
+        newRide.transform.parent = transform;
+        _timer.OnNewDay += newRide.OnNewDay;
+
+        _rides.Add(newRide);
         ComputeAdmissionFee();
     }
 
-    public void AddNewShop(Shop shop)
+    public void AddNewShop(Shop shopPrefab)
     {
-        _shops.Add(shop);
+        if (Bankroll < shopPrefab.ShopCost)
+        {
+            return;
+        }
+        Shop shop = Instantiate(shopPrefab);
+        shop.transform.parent = transform;
+        _timer.OnNewDay += shop.OnNewDay;
+        _shops.Add(shopPrefab);
     }
 }

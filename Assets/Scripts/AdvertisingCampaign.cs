@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AdvertisingCampaign : MonoBehaviour, IAdvertisingCampaign
+public class AdvertisingCampaign : MonoBehaviour, IUpdatesMonthly
 {
     [SerializeField] private float _monthlyCost = 1f;
     [SerializeField] private float _spawnRateIncrease = 1.05f;

@@ -6,9 +6,11 @@ using UnityEngine;
 public class Shop : MonoBehaviour, IUpdatesDaily
 {
     [SerializeField] private float _profitPerItem = 1f;
+    [SerializeField] private float _shopCost = 250f;
 
     public Park Park { get; set; }
-    public float ProfitPerItem { get { return _profitPerItem; } }
+    public float ProfitPerItem => _profitPerItem;
+    public float ShopCost => _shopCost;
 
     public void OnNewDay(object sender, EventArgs e)
     {
