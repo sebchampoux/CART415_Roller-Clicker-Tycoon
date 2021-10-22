@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class SocialMediaManager : MonoBehaviour, IUpdatesYearly, IUpdatesMonthly
 {
-    public AdvertisingCampaign[] _possibleAdCampaigns;
+    public AdvertisingCampaign[] _campaignPrefabs;
+    public float MonthlySalary;
     public Park Park { get; set; }
-    public float MonthlySalary { get; set; }
-
+    
     public void OnNewYear(object sender, System.EventArgs e)
     {
         StartNewAdCampaign();
@@ -16,11 +16,11 @@ public class SocialMediaManager : MonoBehaviour, IUpdatesYearly, IUpdatesMonthly
 
     private void StartNewAdCampaign()
     {
-        int campaignIndex = (int)UnityEngine.Random.Range(0, _possibleAdCampaigns.Length - 1);
-        AdvertisingCampaign newCampaign = Instantiate(_possibleAdCampaigns[campaignIndex]);
-        if (Park.Bankroll >= newCampaign.MonthlyCost)
+        int campaignIndex = (int)UnityEngine.Random.Range(0, _campaignPrefabs.Length - 1);
+        AdvertisingCampaign newCampaignPrefab = _campaignPrefabs[campaignIndex];
+        if (Park.Bankroll >= newCampaignPrefab.MonthlyCost)
         {
-            Park.StartAdCampaign(newCampaign);
+            Park.StartAdCampaign(newCampaignPrefab);
         }
     }
 

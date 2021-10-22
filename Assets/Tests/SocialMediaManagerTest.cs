@@ -40,7 +40,7 @@ public class SocialMediaManagerTest
         temp.AddComponent<AdvertisingCampaign>();
         AdvertisingCampaign campaign = temp.GetComponent<AdvertisingCampaign>();
         campaign.MonthlyCost = 100f;
-        _smManager._possibleAdCampaigns = new AdvertisingCampaign[] { campaign };
+        _smManager._campaignPrefabs = new AdvertisingCampaign[] { campaign };
 
         // Park bankroll must be sufficient to start campaign
         _park.AddToBankroll(1000f);

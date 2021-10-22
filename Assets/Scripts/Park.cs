@@ -115,6 +115,8 @@ public class Park : MonoBehaviour
 
     public virtual void SpawnGuests(int numberOfGuests = 1)
     {
+        // TODO ça pas l'air de marcher correctement si on a une campagne publicitaire qui roule
+        throw new System.NotImplementedException();
         GuestsCount += Mathf.FloorToInt((float)numberOfGuests * SpawnRate);
         Bankroll += AdmissionFee * numberOfGuests;
     }
@@ -139,6 +141,7 @@ public class Park : MonoBehaviour
         AdvertisingCampaign campaign = Instantiate(campaignPrefab);
         campaign.transform.parent = transform;
         _timer.OnNewMonth += campaign.OnNewMonth;
+        campaign.Park = this;
         ComputeAdmissionFee();
         ComputeSpawnRate();
     }
@@ -158,6 +161,7 @@ public class Park : MonoBehaviour
         _timer.OnNewMonth += employee.OnNewMonth;
         _timer.OnNewYear += employee.OnNewYear;
         employee.transform.parent = transform;
+        employee.Park = this;
     }
 
     public virtual void FurloughEmployee(SocialMediaManager employee)
@@ -192,6 +196,7 @@ public class Park : MonoBehaviour
             return;
         }
         Shop shop = Instantiate(shopPrefab);
+        shop.Park = this;
         shop.transform.parent = transform;
         _timer.OnNewDay += shop.OnNewDay;
         _shops.Add(shopPrefab);
