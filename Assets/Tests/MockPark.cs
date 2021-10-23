@@ -60,11 +60,10 @@ public class MockPark : Park
         _lastTerminatedCampaign = campaign;
     }
 
-    public override AdvertisingCampaign StartAdCampaign(AdvertisingCampaign campaign)
+    public override void StartAdCampaign(AdvertisingCampaign campaign)
     {
         _lastStartedCampaign = campaign;
         _startAdCampaignWasCalled = true;
-        return campaign;
     }
 
     public bool LastStartedCampaignWas(AdvertisingCampaign campaign)
