@@ -10,9 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6207685671427100921}
   - component: {fileID: 7859307978384662477}
-  - component: {fileID: 7984478456560374012}
   m_Layer: 0
-  m_Name: Employee_SocialMediaManager
+  m_Name: Employee_MarketingManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,19 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _campaignPrefabs:
   - {fileID: 1512514126220393839, guid: 76d7855da1e26c74b8b9c521e194f662, type: 3}
-  MonthlySalary: 3000
---- !u!114 &7984478456560374012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6207685671427100920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bb7d97f1f756c140b0e3dd78ffb1008, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _campaignPrefabs:
-  - {fileID: 1512514126220393839, guid: 76d7855da1e26c74b8b9c521e194f662, type: 3}
+  - {fileID: 8473894368459106287, guid: 3fca31e5c9addf143a234ce760e56a93, type: 3}
   MonthlySalary: 3000

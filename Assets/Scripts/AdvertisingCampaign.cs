@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AdvertisingCampaign : MonoBehaviour, IUpdatesMonthly
 {
+    [SerializeField] private string _campaignName;
     [SerializeField] private float _monthlyCost = 1f;
     [SerializeField] private float _spawnRateIncrease = 1.05f;
     [SerializeField] private float _admissionFeeRebate = 1f;
@@ -35,5 +36,10 @@ public class AdvertisingCampaign : MonoBehaviour, IUpdatesMonthly
         {
             Park.StopAdCampaign(this);
         }
+    }
+
+    public override string ToString()
+    {
+        return _campaignName + "; $" + MonthlyCost + "/month, " + SpawnRateIncrease + "x spawn rate increase, rebate of $" + AdmissionFeeRebate + " on admission fee.";
     }
 }

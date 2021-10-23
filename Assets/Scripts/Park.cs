@@ -19,6 +19,7 @@ public class Park : MonoBehaviour
 
     public event EventHandler OnGuestsCountChange;
     public event EventHandler OnBankrollChange;
+    public event EventHandler OnParkOperationsChange; // new ride, shop, campaign, employee
 
     public IEnumerable<AdvertisingCampaign> AdvertisingCampaigns
     {
@@ -115,8 +116,6 @@ public class Park : MonoBehaviour
 
     public virtual void SpawnGuests(int numberOfGuests = 1)
     {
-        // TODO ça pas l'air de marcher correctement si on a une campagne publicitaire qui roule
-        throw new System.NotImplementedException();
         GuestsCount += Mathf.FloorToInt((float)numberOfGuests * SpawnRate);
         Bankroll += AdmissionFee * numberOfGuests;
     }
@@ -138,12 +137,19 @@ public class Park : MonoBehaviour
 
     public virtual void StartAdCampaign(AdvertisingCampaign campaignPrefab)
     {
+        if (Bankroll < campaignPrefab.MonthlyCost)
+        {
+            return;
+        }
         AdvertisingCampaign campaign = Instantiate(campaignPrefab);
         campaign.transform.parent = transform;
-        _timer.OnNewMonth += campaign.OnNewMonth;
         campaign.Park = this;
+        _runningCampaigns.Add(campaign);
+        _timer.OnNewMonth += campaign.OnNewMonth;
+
         ComputeAdmissionFee();
         ComputeSpawnRate();
+        OnParkOperationsChange?.Invoke(this, null);
     }
 
     public virtual void StopAdCampaign(AdvertisingCampaign campaign)
@@ -153,6 +159,7 @@ public class Park : MonoBehaviour
         Destroy(campaign);
         ComputeAdmissionFee();
         ComputeSpawnRate();
+        OnParkOperationsChange?.Invoke(this, null);
     }
 
     public void HireEmployee(SocialMediaManager employeePrefab)
@@ -162,6 +169,8 @@ public class Park : MonoBehaviour
         _timer.OnNewYear += employee.OnNewYear;
         employee.transform.parent = transform;
         employee.Park = this;
+        _employees.Add(employee);
+        OnParkOperationsChange?.Invoke(this, null);
     }
 
     public virtual void FurloughEmployee(SocialMediaManager employee)
@@ -170,6 +179,7 @@ public class Park : MonoBehaviour
         _timer.OnNewMonth -= employee.OnNewMonth;
         _employees.Remove(employee);
         Destroy(employee);
+        OnParkOperationsChange?.Invoke(this, null);
     }
 
     public void AddNewRide(Ride ridePrefab)
@@ -184,9 +194,10 @@ public class Park : MonoBehaviour
         newRide.Park = this;
         newRide.transform.parent = transform;
         _timer.OnNewDay += newRide.OnNewDay;
-
         _rides.Add(newRide);
+        
         ComputeAdmissionFee();
+        OnParkOperationsChange?.Invoke(this, null);
     }
 
     public void AddNewShop(Shop shopPrefab)
@@ -200,5 +211,6 @@ public class Park : MonoBehaviour
         shop.transform.parent = transform;
         _timer.OnNewDay += shop.OnNewDay;
         _shops.Add(shopPrefab);
+        OnParkOperationsChange?.Invoke(this, null);
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Shop : MonoBehaviour, IUpdatesDaily
 {
+    [SerializeField] private string _shopName;
     [SerializeField] private float _profitPerItem = 1f;
     [SerializeField] private float _shopCost = 250f;
 
@@ -16,5 +17,10 @@ public class Shop : MonoBehaviour, IUpdatesDaily
     {
         float dailyProfit = Park.GuestsCount * _profitPerItem;
         Park.AddToBankroll(dailyProfit);
+    }
+
+    public override string ToString()
+    {
+        return _shopName + "; profit of $" + ProfitPerItem + " per item sold";
     }
 }

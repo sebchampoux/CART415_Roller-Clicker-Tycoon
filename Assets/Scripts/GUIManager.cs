@@ -6,25 +6,59 @@ using System;
 
 public class GUIManager : MonoBehaviour
 {
-    public Park Park;
-    public TextMeshProUGUI StatusText;
+    public Park _park;
+    public TextMeshProUGUI _statusText;
+    private string _parkOperationsDisplay;
 
     private void Start()
     {
-        Park.OnBankrollChange += OnParkChange;
-        Park.OnGuestsCountChange += OnParkChange;
+        _park.OnBankrollChange += OnGuestsBankrollChange;
+        _park.OnGuestsCountChange += OnGuestsBankrollChange;
+        _park.OnParkOperationsChange += OnParkOperationsChange;
+        OnParkOperationsChange(this, null);
     }
 
-    private void OnParkChange(object sender, System.EventArgs e)
+    private void OnParkOperationsChange(object sender, EventArgs e)
     {
-        RecomputeStatusText();
+        ComputeParkOperationsText();
+        ComputeParkDataText();
     }
 
-    private void RecomputeStatusText()
+    private void ComputeParkOperationsText()
     {
-        String statusText = "";
-        statusText += "Guests: " + Park.GuestsCount + "\n";
-        statusText += "Bankroll: $" + Park.Bankroll;
-        StatusText.text = statusText;
+        _parkOperationsDisplay = "Rides:\n";
+        foreach (Ride ride in _park.Rides)
+        {
+            _parkOperationsDisplay += ride + "\n";
+        }
+        _parkOperationsDisplay += "\nShops:\n";
+        foreach (Shop shop in _park.Shops)
+        {
+            _parkOperationsDisplay += shop + "\n";
+        }
+        _parkOperationsDisplay += "\nAdvertising Campaigns:\n";
+        foreach (AdvertisingCampaign campaign in _park.AdvertisingCampaigns)
+        {
+            _parkOperationsDisplay += campaign + "\n";
+        }
+        _parkOperationsDisplay += "\nEmployees:\n";
+        foreach (SocialMediaManager employee in _park.Employees)
+        {
+            _parkOperationsDisplay += employee + "\n";
+        }
+    }
+
+    private void OnGuestsBankrollChange(object sender, System.EventArgs e)
+    {
+        ComputeParkDataText();
+    }
+
+    private void ComputeParkDataText()
+    {
+        string statusText = "";
+        statusText += "Guests: " + _park.GuestsCount + "\n";
+        statusText += "Bankroll: $" + _park.Bankroll + "\n";
+        statusText += "\n" + _parkOperationsDisplay;
+        _statusText.text = statusText;
     }
 }

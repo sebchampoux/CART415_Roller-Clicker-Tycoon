@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8204884174134552158
+--- !u!1 &6056554701638469502
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,41 +8,41 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1886627474189409025}
-  - component: {fileID: 4294381932632495590}
+  - component: {fileID: 4611135678396037665}
+  - component: {fileID: 2182024099919557830}
   m_Layer: 0
-  m_Name: Shop_BurgerStall
+  m_Name: Shop_FriesStall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1886627474189409025
+--- !u!4 &4611135678396037665
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8204884174134552158}
+  m_GameObject: {fileID: 6056554701638469502}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.36000174, y: -0.08157204, z: -5.556674}
+  m_LocalPosition: {x: -2.2672262, y: -4.5295286, z: -5.556674}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4294381932632495590
+--- !u!114 &2182024099919557830
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8204884174134552158}
+  m_GameObject: {fileID: 6056554701638469502}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6832a54138979742ae682d88b0cc09a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shopName: Burger shop
-  _profitPerItem: 1.5
-  _shopCost: 175
+  _shopName: Fries shop
+  _profitPerItem: 2.5
+  _shopCost: 450

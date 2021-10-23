@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb6efa192b594cb48931c28eff36e71d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _monthlyCost: 1500
+  _campaignName: Social media campaign
+  _monthlyCost: 500
   _spawnRateIncrease: 1.75
   _admissionFeeRebate: 5

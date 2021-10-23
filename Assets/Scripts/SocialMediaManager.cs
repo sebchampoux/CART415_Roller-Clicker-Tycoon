@@ -18,10 +18,7 @@ public class SocialMediaManager : MonoBehaviour, IUpdatesYearly, IUpdatesMonthly
     {
         int campaignIndex = (int)UnityEngine.Random.Range(0, _campaignPrefabs.Length - 1);
         AdvertisingCampaign newCampaignPrefab = _campaignPrefabs[campaignIndex];
-        if (Park.Bankroll >= newCampaignPrefab.MonthlyCost)
-        {
-            Park.StartAdCampaign(newCampaignPrefab);
-        }
+        Park.StartAdCampaign(newCampaignPrefab);
     }
 
     public void OnNewMonth(object sender, EventArgs e)
@@ -34,5 +31,10 @@ public class SocialMediaManager : MonoBehaviour, IUpdatesYearly, IUpdatesMonthly
         {
             Park.FurloughEmployee(this);
         }
+    }
+
+    public override string ToString()
+    {
+        return "Social Media Manager; starts a new campaign every year; monthly salary of $" + MonthlySalary;
     }
 }

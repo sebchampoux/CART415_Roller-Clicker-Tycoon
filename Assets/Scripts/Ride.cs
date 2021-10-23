@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Ride : MonoBehaviour, IUpdatesDaily
 {
+    [SerializeField] private string _rideType;
     [SerializeField] private float _contributionToAdmissionFee = -1f;
     [SerializeField] private int _numberOfGuestsToSpawn = 1;
     [SerializeField] private float _rideCost = 100f;
@@ -21,5 +22,10 @@ public class Ride : MonoBehaviour, IUpdatesDaily
     public void OnNewDay(object sender, System.EventArgs e)
     {
         Park.SpawnGuests(NumberOfGuestsToSpawn);
+    }
+
+    public override string ToString()
+    {
+        return _rideType + "; attracts " + NumberOfGuestsToSpawn + " guests per day; increases admission fee by $" + _contributionToAdmissionFee;
     }
 }

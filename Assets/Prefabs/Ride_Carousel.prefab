@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0625c4adb69db98419e44902449378a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rideType: Carousel
   _contributionToAdmissionFee: 2
   _numberOfGuestsToSpawn: 5
   _rideCost: 250
