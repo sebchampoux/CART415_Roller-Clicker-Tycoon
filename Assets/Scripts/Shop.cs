@@ -7,7 +7,7 @@ public class Shop : MonoBehaviour, IUpdatesDaily
 {
     [SerializeField] private string _shopName;
     [SerializeField] private float _profitPerItem = 1f;
-    [SerializeField] private float _shopCost = 250f;
+    [SerializeField] private float _shopCost = 0f;
 
     public Park Park { get; set; }
     public float ProfitPerItem => _profitPerItem;

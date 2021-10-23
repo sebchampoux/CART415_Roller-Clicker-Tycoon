@@ -5,9 +5,9 @@ using UnityEngine;
 public class Ride : MonoBehaviour, IUpdatesDaily
 {
     [SerializeField] private string _rideType;
-    [SerializeField] private float _contributionToAdmissionFee = -1f;
+    [SerializeField] private float _contributionToAdmissionFee = 0f;
     [SerializeField] private int _numberOfGuestsToSpawn = 1;
-    [SerializeField] private float _rideCost = 100f;
+    [SerializeField] private float _rideCost = 0f;
 
     public float ContributionToAdmissionFee
     {

@@ -6,7 +6,7 @@ using UnityEngine;
 public class SocialMediaManager : MonoBehaviour, IUpdatesYearly, IUpdatesMonthly
 {
     public AdvertisingCampaign[] _campaignPrefabs;
-    public float MonthlySalary;
+    public float MonthlySalary = 0f;
     public Park Park { get; set; }
     
     public void OnNewYear(object sender, System.EventArgs e)

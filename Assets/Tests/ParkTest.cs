@@ -12,7 +12,9 @@ public class ParkTest
     {
         GameObject tempGameObject = new GameObject();
         tempGameObject.AddComponent<Park>();
+        tempGameObject.AddComponent<MockTimer>();
         _park = tempGameObject.GetComponent<Park>();
+        _park.Timer = tempGameObject.GetComponent<MockTimer>();
     }
 
     [Test]
@@ -109,7 +111,7 @@ public class ParkTest
         AdvertisingCampaign a1 = CreateAdCampaign(5f, 0f);
         AdvertisingCampaign a2 = CreateAdCampaign(2f, 0f);
         _park.StartAdCampaign(a1);
-        _park.StartAdCampaign(a2);
+        a2 = _park.StartAdCampaign(a2);
         Assert.AreEqual(18f, _park.AdmissionFee);
 
         _park.StopAdCampaign(a2);
@@ -138,7 +140,7 @@ public class ParkTest
         AdvertisingCampaign adCampaign1 = CreateAdCampaign(0f, 1.5f);
         AdvertisingCampaign adCampaign2 = CreateAdCampaign(0f, 1.25f);
         _park.StartAdCampaign(adCampaign1);
-        _park.StartAdCampaign(adCampaign2);
+        adCampaign2 = _park.StartAdCampaign(adCampaign2);
         Assert.AreEqual(1.875f, _park.SpawnRate);
 
         _park.SpawnGuests(5); // 5 * 1.875 = 9.375 => 9 guests spawned
@@ -153,12 +155,12 @@ public class ParkTest
     [Test]
     public void shouldStartAdCampaignCorrectly()
     {
-        AdvertisingCampaign campaign = new AdvertisingCampaign();
+        AdvertisingCampaign campaignPrefab = CreateAdCampaign();
 
         IEnumerator<AdvertisingCampaign> campaigns = _park.AdvertisingCampaigns.GetEnumerator();
         Assert.IsFalse(campaigns.MoveNext());
 
-        _park.StartAdCampaign(campaign);
+        AdvertisingCampaign campaign = _park.StartAdCampaign(campaignPrefab);
         IEnumerator<AdvertisingCampaign> campaignsAfterAdd = _park.AdvertisingCampaigns.GetEnumerator();
         Assert.IsTrue(campaignsAfterAdd.MoveNext());
         Assert.AreEqual(campaign, campaignsAfterAdd.Current);
@@ -167,9 +169,9 @@ public class ParkTest
     [Test]
     public void shouldTerminateAdCampaignCorrectly()
     {
-        AdvertisingCampaign campaign = new AdvertisingCampaign();
+        AdvertisingCampaign campaignPrefab = CreateAdCampaign();
 
-        _park.StartAdCampaign(campaign);
+        AdvertisingCampaign campaign = _park.StartAdCampaign(campaignPrefab);
         _park.StopAdCampaign(campaign);
         IEnumerator<AdvertisingCampaign> campaignsAfterRemove = _park.AdvertisingCampaigns.GetEnumerator();
         Assert.IsFalse(campaignsAfterRemove.MoveNext());
@@ -178,12 +180,12 @@ public class ParkTest
     [Test]
     public void shouldHireEmployeeCorrectly()
     {
-        SocialMediaManager employee = new SocialMediaManager();
+        SocialMediaManager employeePrefab = CreateEmployeePrefab();
 
         IEnumerator<SocialMediaManager> employees = _park.Employees.GetEnumerator();
         Assert.IsFalse(employees.MoveNext());
 
-        _park.HireEmployee(employee);
+        SocialMediaManager employee = _park.HireEmployee(employeePrefab);
         IEnumerator<SocialMediaManager> employeesAfterAdd = _park.Employees.GetEnumerator();
         Assert.IsTrue(employeesAfterAdd.MoveNext());
         Assert.AreEqual(employee, employeesAfterAdd.Current);
@@ -192,9 +194,9 @@ public class ParkTest
     [Test]
     public void shouldFurloughEmployeeCorrectly()
     {
-        SocialMediaManager employee = new SocialMediaManager();
+        SocialMediaManager employeePrefab = CreateEmployeePrefab();
 
-        _park.HireEmployee(employee);
+        SocialMediaManager employee = _park.HireEmployee(employeePrefab);
         _park.FurloughEmployee(employee);
         IEnumerator<SocialMediaManager> employeesAfterRemove = _park.Employees.GetEnumerator();
         Assert.IsFalse(employeesAfterRemove.MoveNext());
@@ -203,12 +205,12 @@ public class ParkTest
     [Test]
     public void shouldAddRideCorrectly()
     {
-        Ride ride = new Ride();
+        Ride ridePrefab = CreateMockRide();
 
         IEnumerator<Ride> rides = _park.Rides.GetEnumerator();
         Assert.IsFalse(rides.MoveNext());
 
-        _park.AddNewRide(ride);
+        Ride ride = _park.AddNewRide(ridePrefab);
         IEnumerator<Ride> ridesAfterAdd = _park.Rides.GetEnumerator();
         Assert.IsTrue(ridesAfterAdd.MoveNext());
         Assert.AreEqual(ride, ridesAfterAdd.Current);
@@ -217,31 +219,46 @@ public class ParkTest
     [Test]
     public void shouldAddShopCorrectly()
     {
-        Shop shop = new Shop();
+        Shop shopPrefab = CreateMockShop();
 
         IEnumerator<Shop> shopsBeforeAdd = _park.Shops.GetEnumerator();
         Assert.IsFalse(shopsBeforeAdd.MoveNext());
 
-        _park.AddNewShop(shop);
+        Shop shop = _park.AddNewShop(shopPrefab);
         IEnumerator<Shop> shopsAfterAdd = _park.Shops.GetEnumerator();
         Assert.IsTrue(shopsAfterAdd.MoveNext());
         Assert.AreEqual(shop, shopsAfterAdd.Current);
     }
 
-    private static AdvertisingCampaign CreateAdCampaign(float rebateToAdmissionFee, float spawnRateIncrease)
+    private static AdvertisingCampaign CreateAdCampaign(float rebateToAdmissionFee = 0f, float spawnRateIncrease = 1f)
     {
         GameObject temp = new GameObject();
         temp.AddComponent<AdvertisingCampaign>();
         temp.GetComponent<AdvertisingCampaign>().SpawnRateIncrease = spawnRateIncrease;
         temp.GetComponent<AdvertisingCampaign>().AdmissionFeeRebate = rebateToAdmissionFee;
+        temp.GetComponent<AdvertisingCampaign>().MonthlyCost = 0f;
         return temp.GetComponent<AdvertisingCampaign>();
     }
 
-    private static Ride CreateMockRide(float contributionToAdmFee)
+    private static Ride CreateMockRide(float contributionToAdmFee = 0f)
     {
         GameObject temp = new GameObject();
         temp.AddComponent<Ride>();
         temp.GetComponent<Ride>().ContributionToAdmissionFee = contributionToAdmFee;
         return temp.GetComponent<Ride>();
+    }
+
+    private static SocialMediaManager CreateEmployeePrefab()
+    {
+        GameObject t = new GameObject();
+        t.AddComponent<SocialMediaManager>();
+        return t.GetComponent<SocialMediaManager>();
+    }
+
+    private static Shop CreateMockShop()
+    {
+        GameObject t = new GameObject();
+        t.AddComponent<Shop>();
+        return t.GetComponent<Shop>();
     }
 }

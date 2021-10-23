@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class MockPark : Park
 {
     private int _lastSpawnNbrOfGuests = -1;
@@ -58,15 +57,14 @@ public class MockPark : Park
 
     public override void StopAdCampaign(AdvertisingCampaign campaign)
     {
-        base.StopAdCampaign(campaign);
         _lastTerminatedCampaign = campaign;
     }
 
-    public override void StartAdCampaign(AdvertisingCampaign campaign)
+    public override AdvertisingCampaign StartAdCampaign(AdvertisingCampaign campaign)
     {
-        base.StartAdCampaign(campaign);
         _lastStartedCampaign = campaign;
         _startAdCampaignWasCalled = true;
+        return campaign;
     }
 
     public bool LastStartedCampaignWas(AdvertisingCampaign campaign)
@@ -76,7 +74,6 @@ public class MockPark : Park
 
     public override void FurloughEmployee(SocialMediaManager employee)
     {
-        base.FurloughEmployee(employee);
         _lastFurloughedEmployee = employee;
     }
 

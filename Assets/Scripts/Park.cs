@@ -21,6 +21,7 @@ public class Park : MonoBehaviour
     public event EventHandler OnBankrollChange;
     public event EventHandler OnParkOperationsChange; // new ride, shop, campaign, employee
 
+    public Timer Timer { set { _timer = value; } }
     public IEnumerable<AdvertisingCampaign> AdvertisingCampaigns
     {
         get { return _runningCampaigns; }
@@ -135,11 +136,11 @@ public class Park : MonoBehaviour
         return true;
     }
 
-    public virtual void StartAdCampaign(AdvertisingCampaign campaignPrefab)
+    public virtual AdvertisingCampaign StartAdCampaign(AdvertisingCampaign campaignPrefab)
     {
         if (Bankroll < campaignPrefab.MonthlyCost)
         {
-            return;
+            return null;
         }
         AdvertisingCampaign campaign = Instantiate(campaignPrefab);
         campaign.transform.parent = transform;
@@ -150,6 +151,7 @@ public class Park : MonoBehaviour
         ComputeAdmissionFee();
         ComputeSpawnRate();
         OnParkOperationsChange?.Invoke(this, null);
+        return campaign;
     }
 
     public virtual void StopAdCampaign(AdvertisingCampaign campaign)
@@ -162,7 +164,7 @@ public class Park : MonoBehaviour
         OnParkOperationsChange?.Invoke(this, null);
     }
 
-    public void HireEmployee(SocialMediaManager employeePrefab)
+    public SocialMediaManager HireEmployee(SocialMediaManager employeePrefab)
     {
         SocialMediaManager employee = Instantiate(employeePrefab);
         _timer.OnNewMonth += employee.OnNewMonth;
@@ -171,6 +173,7 @@ public class Park : MonoBehaviour
         employee.Park = this;
         _employees.Add(employee);
         OnParkOperationsChange?.Invoke(this, null);
+        return employee;
     }
 
     public virtual void FurloughEmployee(SocialMediaManager employee)
@@ -182,11 +185,11 @@ public class Park : MonoBehaviour
         OnParkOperationsChange?.Invoke(this, null);
     }
 
-    public void AddNewRide(Ride ridePrefab)
+    public Ride AddNewRide(Ride ridePrefab)
     {
         if (Bankroll < ridePrefab.RideCost)
         {
-            return;
+            return null;
         }
         SpendMoney(ridePrefab.RideCost);
 
@@ -198,19 +201,21 @@ public class Park : MonoBehaviour
         
         ComputeAdmissionFee();
         OnParkOperationsChange?.Invoke(this, null);
+        return newRide;
     }
 
-    public void AddNewShop(Shop shopPrefab)
+    public Shop AddNewShop(Shop shopPrefab)
     {
         if (Bankroll < shopPrefab.ShopCost)
         {
-            return;
+            return null;
         }
         Shop shop = Instantiate(shopPrefab);
         shop.Park = this;
         shop.transform.parent = transform;
         _timer.OnNewDay += shop.OnNewDay;
-        _shops.Add(shopPrefab);
+        _shops.Add(shop);
         OnParkOperationsChange?.Invoke(this, null);
+        return shop;
     }
 }

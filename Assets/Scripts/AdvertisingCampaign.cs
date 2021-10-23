@@ -5,9 +5,9 @@ using UnityEngine;
 public class AdvertisingCampaign : MonoBehaviour, IUpdatesMonthly
 {
     [SerializeField] private string _campaignName;
-    [SerializeField] private float _monthlyCost = 1f;
-    [SerializeField] private float _spawnRateIncrease = 1.05f;
-    [SerializeField] private float _admissionFeeRebate = 1f;
+    [SerializeField] private float _monthlyCost = 0f;
+    [SerializeField] private float _spawnRateIncrease = 1f;
+    [SerializeField] private float _admissionFeeRebate = 0f;
 
     public Park Park { get; set; }
     public float MonthlyCost
