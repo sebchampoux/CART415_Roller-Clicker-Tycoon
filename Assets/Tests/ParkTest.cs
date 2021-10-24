@@ -113,10 +113,11 @@ public class ParkTest
         _park.StartAdCampaign(a1);
         _park.StartAdCampaign(a2);
         Assert.AreEqual(18f, _park.AdmissionFee);
+    }
 
-        _park.StopAdCampaign(a2);
-        Assert.AreEqual(20f, _park.AdmissionFee);
-
+    [Test]
+    public void admissionFeeShouldntBeLessThanZero()
+    {
         // The admission fee shouldn't be less than 0 (we shouldn't pay guests to enter the park lol)
         AdvertisingCampaign a3 = CreateAdCampaign(100f, 0f);
         _park.StartAdCampaign(a3);
@@ -145,11 +146,6 @@ public class ParkTest
 
         _park.SpawnGuests(5); // 5 * 1.875 = 9.375 => 9 guests spawned
         Assert.AreEqual(10, _park.GuestsCount);
-
-        _park.StopAdCampaign(adCampaign2);
-        Assert.AreEqual(1.5f, _park.SpawnRate);
-        _park.SpawnGuests(2);
-        Assert.AreEqual(13, _park.GuestsCount);
     }
 
     [Test]
@@ -163,7 +159,7 @@ public class ParkTest
         _park.StartAdCampaign(campaignPrefab);
         IEnumerator<AdvertisingCampaign> campaignsAfterAdd = _park.AdvertisingCampaigns.GetEnumerator();
         Assert.IsTrue(campaignsAfterAdd.MoveNext());
-        Assert.AreEqual(campaignPrefab, campaignsAfterAdd.Current);
+        Assert.IsFalse(campaignsAfterAdd.MoveNext()); // Contains one ad campaign
     }
 
     [Test]
@@ -172,7 +168,9 @@ public class ParkTest
         AdvertisingCampaign campaignPrefab = CreateAdCampaign();
 
         _park.StartAdCampaign(campaignPrefab);
-        _park.StopAdCampaign(campaignPrefab);
+        IEnumerator<AdvertisingCampaign> campaignsBeforeRemove = _park.AdvertisingCampaigns.GetEnumerator();
+        campaignsBeforeRemove.MoveNext();
+        _park.StopAdCampaign(campaignsBeforeRemove.Current);
         IEnumerator<AdvertisingCampaign> campaignsAfterRemove = _park.AdvertisingCampaigns.GetEnumerator();
         Assert.IsFalse(campaignsAfterRemove.MoveNext());
     }
@@ -188,7 +186,7 @@ public class ParkTest
         _park.HireEmployee(employeePrefab);
         IEnumerator<SocialMediaManager> employeesAfterAdd = _park.Employees.GetEnumerator();
         Assert.IsTrue(employeesAfterAdd.MoveNext());
-        Assert.AreEqual(employeePrefab, employeesAfterAdd.Current);
+        Assert.IsFalse(employeesAfterAdd.MoveNext()); // Contains one employee
     }
 
     [Test]
@@ -197,7 +195,9 @@ public class ParkTest
         SocialMediaManager employeePrefab = CreateEmployeePrefab();
 
         _park.HireEmployee(employeePrefab);
-        _park.FurloughEmployee(employeePrefab);
+        IEnumerator<SocialMediaManager> employeesBeforeRemove = _park.Employees.GetEnumerator();
+        employeesBeforeRemove.MoveNext();
+        _park.FurloughEmployee(employeesBeforeRemove.Current);
         IEnumerator<SocialMediaManager> employeesAfterRemove = _park.Employees.GetEnumerator();
         Assert.IsFalse(employeesAfterRemove.MoveNext());
     }
@@ -213,7 +213,7 @@ public class ParkTest
         _park.AddNewRide(ridePrefab);
         IEnumerator<Ride> ridesAfterAdd = _park.Rides.GetEnumerator();
         Assert.IsTrue(ridesAfterAdd.MoveNext());
-        Assert.AreEqual(ridePrefab, ridesAfterAdd.Current);
+        Assert.IsFalse(ridesAfterAdd.MoveNext()); // Contains one ride
     }
 
     [Test]
@@ -227,7 +227,7 @@ public class ParkTest
         _park.AddNewShop(shopPrefab);
         IEnumerator<Shop> shopsAfterAdd = _park.Shops.GetEnumerator();
         Assert.IsTrue(shopsAfterAdd.MoveNext());
-        Assert.AreEqual(shopPrefab, shopsAfterAdd.Current);
+        Assert.IsFalse(shopsAfterAdd.MoveNext()); // Contains one shop
     }
 
     private static AdvertisingCampaign CreateAdCampaign(float rebateToAdmissionFee = 0f, float spawnRateIncrease = 1f)
