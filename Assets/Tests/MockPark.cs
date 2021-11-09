@@ -11,6 +11,7 @@ public class MockPark : Park
     private AdvertisingCampaign _lastStartedCampaign = null;
     private Employee _lastFurloughedEmployee = null;
     private bool _startAdCampaignWasCalled = false;
+    private bool _addNewRideWasCalled = false;
 
     public override void SpawnGuests(int numberOfGuests = 1)
     {
@@ -80,4 +81,11 @@ public class MockPark : Park
     {
         return _lastFurloughedEmployee == employee;
     }
+
+    public override void AddNewRide(Ride ridePrefab)
+    {
+        _addNewRideWasCalled = true;
+    }
+
+    public bool AddNewRideWasCalled() => _addNewRideWasCalled;
 }

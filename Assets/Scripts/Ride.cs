@@ -18,7 +18,11 @@ public class Ride : MonoBehaviour, IUpdatesDaily, IUnlockable
     }
 
     public int NumberOfGuestsToSpawn => _numberOfGuestsToSpawn;
-    public float RideCost => _rideCost;
+    public float RideCost
+    {
+        get => _rideCost;
+        set { _rideCost = Mathf.Max(0f, value); }
+    }
     public Park Park { get; set; }
     public float MonthlyOperationsCost => _monthlyOperationCost;
     public int GuestsToUnlock => _guestsToUnlock;

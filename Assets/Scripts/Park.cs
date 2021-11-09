@@ -183,7 +183,7 @@ public class Park : MonoBehaviour
         OnParkOperationsChange?.Invoke(this, null);
     }
 
-    public void AddNewRide(Ride ridePrefab)
+    public virtual void AddNewRide(Ride ridePrefab)
     {
         if (Bankroll < ridePrefab.RideCost)
         {
