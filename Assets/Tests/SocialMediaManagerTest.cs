@@ -26,17 +26,21 @@ public class SocialMediaManagerTest
 
         _smManager.Park = _park;
     }
-
     [Test]
-    public void shouldBePaidFromParkBankrollMonthly()
+    public void shouldStartNewAdCampaignEachYear()
     {
-        _park.AddToBankroll(500f);
-        const float monthlySalary = 100f;
-        _smManager.MonthlySalary = monthlySalary;
-        _timer.OnNewMonth += _smManager.OnNewMonth;
+        GameObject temp = new GameObject();
+        temp.AddComponent<AdvertisingCampaign>();
+        AdvertisingCampaign campaign = temp.GetComponent<AdvertisingCampaign>();
+        campaign.MonthlyCost = 100f;
+        _smManager.PossibleCampaignsPrefabs = new AdvertisingCampaign[] { campaign };
 
-        Assert.IsFalse(_park.SpendMoneyLastCalledWith(monthlySalary));
-        _timer.ElapseMonth();
-        Assert.IsTrue(_park.SpendMoneyLastCalledWith(monthlySalary));
+        // Park bankroll must be sufficient to start campaign
+        _park.AddToBankroll(1000f);
+        
+        _timer.OnNewYear += _smManager.OnNewYear;
+        Assert.IsFalse(_park.StartAdCampaignWasCalled());
+        _timer.ElapseYear();
+        Assert.IsTrue(_park.StartAdCampaignWasCalled());
     }
 }
