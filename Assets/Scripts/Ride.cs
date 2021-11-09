@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ride : MonoBehaviour, IUpdatesDaily
+public class Ride : MonoBehaviour, IUpdatesDaily, IUnlockable
 {
+    [SerializeField] private int _guestsToUnlock = 0;
     [SerializeField] private string _rideType;
     [SerializeField] private float _contributionToAdmissionFee = 0f;
     [SerializeField] private int _numberOfGuestsToSpawn = 1;
     [SerializeField] private float _rideCost = 0f;
+    [SerializeField] private float _monthlyOperationCost = 0f;
 
     public float ContributionToAdmissionFee
     {
@@ -18,6 +20,8 @@ public class Ride : MonoBehaviour, IUpdatesDaily
     public int NumberOfGuestsToSpawn => _numberOfGuestsToSpawn;
     public float RideCost => _rideCost;
     public Park Park { get; set; }
+    public float MonthlyOperationsCost => _monthlyOperationCost;
+    public int GuestsToUnlock => _guestsToUnlock;
 
     public void OnNewDay(object sender, System.EventArgs e)
     {

@@ -34,11 +34,35 @@ public class RideTest
     }
 
     [Test]
+    public void shouldHaveMonthlyOperationsCost()
+    {
+        Assert.GreaterOrEqual(0f, _ride.MonthlyOperationsCost);
+    }
+
+    [Test]
+    public void shouldHaveGuestsToUnlockProp()
+    {
+        Assert.GreaterOrEqual(0f, _ride.GuestsToUnlock);
+    }
+
+    [Test]
     public void shouldAutomaticallySpawnGuestsEachDay()
     {
         _timer.OnNewDay += _ride.OnNewDay;
 
         _timer.ElapseDay();
         Assert.IsTrue(_park.SpawnLastCalledWith(_ride.NumberOfGuestsToSpawn));
+    }
+
+    [Test]
+    public void shouldRemoveMonthlyOpCostFromParkBankroll()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    [Test]
+    public void shouldBeRemovedIfParkCantPayOperationsCost()
+    {
+        throw new System.NotImplementedException();
     }
 }

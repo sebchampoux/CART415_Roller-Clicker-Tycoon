@@ -42,7 +42,7 @@ public class GUIManager : MonoBehaviour
             _parkOperationsDisplay += campaign + "\n";
         }
         _parkOperationsDisplay += "\nEmployees:\n";
-        foreach (SocialMediaManager employee in _park.Employees)
+        foreach (Employee employee in _park.Employees)
         {
             _parkOperationsDisplay += employee + "\n";
         }

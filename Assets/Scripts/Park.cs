@@ -13,7 +13,7 @@ public class Park : MonoBehaviour
     private int _guestsCount = 0;
     private float _bankroll = 0f;
     private IList<AdvertisingCampaign> _runningCampaigns = new List<AdvertisingCampaign>();
-    private IList<SocialMediaManager> _employees = new List<SocialMediaManager>();
+    private IList<Employee> _employees = new List<Employee>();
     private IList<Ride> _rides = new List<Ride>();
     private IList<Shop> _shops = new List<Shop>();
 
@@ -26,7 +26,7 @@ public class Park : MonoBehaviour
     {
         get { return _runningCampaigns; }
     }
-    public IEnumerable<SocialMediaManager> Employees
+    public IEnumerable<Employee> Employees
     {
         get { return _employees; }
     }
@@ -163,9 +163,9 @@ public class Park : MonoBehaviour
         OnParkOperationsChange?.Invoke(this, null);
     }
 
-    public void HireEmployee(SocialMediaManager employeePrefab)
+    public void HireEmployee(Employee employeePrefab)
     {
-        SocialMediaManager employee = Instantiate(employeePrefab);
+        Employee employee = Instantiate(employeePrefab);
         _timer.OnNewMonth += employee.OnNewMonth;
         _timer.OnNewYear += employee.OnNewYear;
         employee.transform.parent = transform;
@@ -174,7 +174,7 @@ public class Park : MonoBehaviour
         OnParkOperationsChange?.Invoke(this, null);
     }
 
-    public virtual void FurloughEmployee(SocialMediaManager employee)
+    public virtual void FurloughEmployee(Employee employee)
     {
         _timer.OnNewYear -= employee.OnNewYear;
         _timer.OnNewMonth -= employee.OnNewMonth;

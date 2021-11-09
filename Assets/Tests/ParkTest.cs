@@ -178,13 +178,13 @@ public class ParkTest
     [Test]
     public void shouldHireEmployeeCorrectly()
     {
-        SocialMediaManager employeePrefab = CreateEmployeePrefab();
+        Employee employeePrefab = CreateEmployeePrefab();
 
-        IEnumerator<SocialMediaManager> employees = _park.Employees.GetEnumerator();
+        IEnumerator<Employee> employees = _park.Employees.GetEnumerator();
         Assert.IsFalse(employees.MoveNext());
 
         _park.HireEmployee(employeePrefab);
-        IEnumerator<SocialMediaManager> employeesAfterAdd = _park.Employees.GetEnumerator();
+        IEnumerator<Employee> employeesAfterAdd = _park.Employees.GetEnumerator();
         Assert.IsTrue(employeesAfterAdd.MoveNext());
         Assert.IsFalse(employeesAfterAdd.MoveNext()); // Contains one employee
     }
@@ -192,13 +192,13 @@ public class ParkTest
     [Test]
     public void shouldFurloughEmployeeCorrectly()
     {
-        SocialMediaManager employeePrefab = CreateEmployeePrefab();
+        Employee employeePrefab = CreateEmployeePrefab();
 
         _park.HireEmployee(employeePrefab);
-        IEnumerator<SocialMediaManager> employeesBeforeRemove = _park.Employees.GetEnumerator();
+        IEnumerator<Employee> employeesBeforeRemove = _park.Employees.GetEnumerator();
         employeesBeforeRemove.MoveNext();
         _park.FurloughEmployee(employeesBeforeRemove.Current);
-        IEnumerator<SocialMediaManager> employeesAfterRemove = _park.Employees.GetEnumerator();
+        IEnumerator<Employee> employeesAfterRemove = _park.Employees.GetEnumerator();
         Assert.IsFalse(employeesAfterRemove.MoveNext());
     }
 
@@ -248,7 +248,7 @@ public class ParkTest
         return temp.GetComponent<Ride>();
     }
 
-    private static SocialMediaManager CreateEmployeePrefab()
+    private static Employee CreateEmployeePrefab()
     {
         GameObject t = new GameObject();
         t.AddComponent<SocialMediaManager>();

@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AdvertisingCampaign : MonoBehaviour, IUpdatesMonthly
+public class AdvertisingCampaign : MonoBehaviour, IUpdatesMonthly, IUnlockable
 {
     [SerializeField] private string _campaignName;
     [SerializeField] private float _monthlyCost = 0f;
     [SerializeField] private float _spawnRateIncrease = 1f;
     [SerializeField] private float _admissionFeeRebate = 0f;
+    [SerializeField] private int _guestsToUnlock;
 
     public Park Park { get; set; }
     public float MonthlyCost
@@ -25,6 +26,8 @@ public class AdvertisingCampaign : MonoBehaviour, IUpdatesMonthly
         get { return _admissionFeeRebate; }
         set { _admissionFeeRebate = Mathf.Max(0f, value); }
     }
+
+    public int GuestsToUnlock => _guestsToUnlock;
 
     public void OnNewMonth(object sender, System.EventArgs e)
     {

@@ -44,4 +44,22 @@ public class ShopTest
         _timer.ElapseDay();
         Assert.IsTrue(_park.AddBankrollLastCalledWith(expectedProfit));
     }
+
+    [Test]
+    public void shouldHaveMonthlyOperationCost()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    [Test]
+    public void shouldRemoveMonthlyOpCostFromParkBankroll()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    [Test]
+    public void shouldCloseIfCantPayMonthlyOpCost()
+    {
+        throw new System.NotImplementedException();
+    }
 }
