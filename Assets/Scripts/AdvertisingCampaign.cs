@@ -2,20 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AdvertisingCampaign : MonoBehaviour, IUpdatesMonthly, IUnlockable
+public class AdvertisingCampaign : ParkOperation, IUnlockable
 {
     [SerializeField] private string _campaignName;
-    [SerializeField] private float _monthlyCost = 0f;
     [SerializeField] private float _spawnRateIncrease = 1f;
     [SerializeField] private float _admissionFeeRebate = 0f;
     [SerializeField] private int _guestsToUnlock;
 
-    public Park Park { get; set; }
-    public float MonthlyCost
-    {
-        get { return _monthlyCost; }
-        set { _monthlyCost = Mathf.Max(0f, value); }
-    }
     public float SpawnRateIncrease
     {
         get { return _spawnRateIncrease; }
@@ -29,16 +22,9 @@ public class AdvertisingCampaign : MonoBehaviour, IUpdatesMonthly, IUnlockable
 
     public int GuestsToUnlock => _guestsToUnlock;
 
-    public void OnNewMonth(object sender, System.EventArgs e)
+    public override void Terminate()
     {
-        if (Park.Bankroll >= MonthlyCost)
-        {
-            Park.SpendMoney(MonthlyCost);
-        }
-        else
-        {
-            Park.StopAdCampaign(this);
-        }
+        Park.StopAdCampaign(this);
     }
 
     public override string ToString()

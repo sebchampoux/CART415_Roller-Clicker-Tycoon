@@ -46,20 +46,10 @@ public class ShopTest
     }
 
     [Test]
-    public void shouldHaveMonthlyOperationCost()
+    public void shouldCloseIfTerminateIsCalled()
     {
-        throw new System.NotImplementedException();
-    }
-
-    [Test]
-    public void shouldRemoveMonthlyOpCostFromParkBankroll()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    [Test]
-    public void shouldCloseIfCantPayMonthlyOpCost()
-    {
-        throw new System.NotImplementedException();
+        Assert.IsFalse(_park.CloseShopLastCalledWith(_shop));
+        _shop.Terminate();
+        Assert.IsTrue(_park.CloseShopLastCalledWith(_shop));
     }
 }

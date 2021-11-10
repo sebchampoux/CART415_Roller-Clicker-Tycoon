@@ -12,6 +12,8 @@ public class MockPark : Park
     private Employee _lastFurloughedEmployee = null;
     private bool _startAdCampaignWasCalled = false;
     private bool _addNewRideWasCalled = false;
+    private Shop _closeShopLastCalledWith;
+    private Ride _closeRideLastCalledWith;
 
     public override void SpawnGuests(int numberOfGuests = 1)
     {
@@ -44,6 +46,26 @@ public class MockPark : Park
     {
         _lastCallToSpendMoney = amountToSpend;
         return base.SpendMoney(amountToSpend);
+    }
+
+    public override void CloseShop(Shop shop)
+    {
+        _closeShopLastCalledWith = shop;
+    }
+
+    public override void CloseRide(Ride ride)
+    {
+        _closeRideLastCalledWith = ride;
+    }
+
+    public bool CloseRideLastCalledWith(Ride ride)
+    {
+        return _closeRideLastCalledWith == ride;
+    }
+
+    public bool CloseShopLastCalledWith(Shop shop)
+    {
+        return _closeShopLastCalledWith == shop;
     }
 
     public bool SpendMoneyLastCalledWith(float expectedSpending)

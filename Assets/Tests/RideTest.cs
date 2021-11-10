@@ -34,12 +34,6 @@ public class RideTest
     }
 
     [Test]
-    public void shouldHaveMonthlyOperationsCost()
-    {
-        Assert.GreaterOrEqual(0f, _ride.MonthlyOperationsCost);
-    }
-
-    [Test]
     public void shouldHaveGuestsToUnlockProp()
     {
         Assert.GreaterOrEqual(0f, _ride.GuestsToUnlock);
@@ -55,14 +49,10 @@ public class RideTest
     }
 
     [Test]
-    public void shouldRemoveMonthlyOpCostFromParkBankroll()
+    public void shouldCloseRideWhenTerminated()
     {
-        throw new System.NotImplementedException();
-    }
-
-    [Test]
-    public void shouldBeRemovedIfParkCantPayOperationsCost()
-    {
-        throw new System.NotImplementedException();
+        Assert.IsFalse(_park.CloseRideLastCalledWith(_ride));
+        _ride.Terminate();
+        Assert.IsTrue(_park.CloseRideLastCalledWith(_ride));
     }
 }

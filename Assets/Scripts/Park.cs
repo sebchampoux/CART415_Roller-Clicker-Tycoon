@@ -201,6 +201,11 @@ public class Park : MonoBehaviour
         OnParkOperationsChange?.Invoke(this, null);
     }
 
+    public virtual void CloseRide(Ride ride)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public void AddNewShop(Shop shopPrefab)
     {
         if (Bankroll < shopPrefab.ShopCost)
@@ -213,5 +218,10 @@ public class Park : MonoBehaviour
         _timer.OnNewDay += shop.OnNewDay;
         _shops.Add(shop);
         OnParkOperationsChange?.Invoke(this, null);
+    }
+
+    public virtual void CloseShop(Shop shop)
+    {
+        throw new System.NotImplementedException();
     }
 }
