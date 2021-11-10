@@ -44,9 +44,9 @@ public class Park : MonoBehaviour
     public int GuestsCount
     {
         get { return _guestsCount; }
-        private set
+        protected set
         {
-            _guestsCount = Mathf.Max(0, value);
+            _guestsCount = value;
             OnGuestsCountChange?.Invoke(this, null);
         }
     }
