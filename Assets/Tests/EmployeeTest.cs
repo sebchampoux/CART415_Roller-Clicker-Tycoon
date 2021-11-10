@@ -12,8 +12,6 @@ public class EmployeeTest
             throw new NotImplementedException();
         }
     }
-
-    private MockTimer _timer;
     private MockPark _park;
     private Employee _employee;
 
@@ -21,9 +19,6 @@ public class EmployeeTest
     public void SetUpTests()
     {
         GameObject tempGameObject = new GameObject();
-
-        tempGameObject.AddComponent<MockTimer>();
-        _timer = tempGameObject.GetComponent<MockTimer>();
 
         tempGameObject.AddComponent<ConcreteEmployee>();
         _employee = tempGameObject.GetComponent<ConcreteEmployee>();
@@ -35,34 +30,10 @@ public class EmployeeTest
     }
 
     [Test]
-    public void shouldHaveMontlyWageProp()
+    public void shouldBeFurloughedIfTerminated()
     {
-        Assert.GreaterOrEqual(_employee.MonthlySalary, 0f);
-    }
-
-    [Test]
-    public void shouldBePaidFromParkBankrollMonthly()
-    {
-        _park.AddToBankroll(500f);
-        const float monthlySalary = 100f;
-        _employee.MonthlySalary = monthlySalary;
-        _timer.OnNewMonth += _employee.OnNewMonth;
-
-        Assert.IsFalse(_park.SpendMoneyLastCalledWith(monthlySalary));
-        _timer.ElapseMonth();
-        Assert.IsTrue(_park.SpendMoneyLastCalledWith(monthlySalary));
-    }
-
-    [Test]
-    public void shouldBeFurloughedIfParkCantPaySalary()
-    {
-        const float monthlySalary = 100f;
-        _employee.MonthlySalary = monthlySalary;
-        _park.AddToBankroll(50f);
-        _timer.OnNewMonth += _employee.OnNewMonth;
-
         Assert.IsFalse(_park.LastFurloughedEmployeeWas(_employee));
-        _timer.ElapseMonth();
+        _employee.Terminate();
         Assert.IsTrue(_park.LastFurloughedEmployeeWas(_employee));
     }
 }

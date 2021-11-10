@@ -21,6 +21,6 @@ public class SocialMediaManager : Employee
 
     public override string ToString()
     {
-        return "Social Media Manager; starts a new campaign every year; monthly salary of $" + MonthlySalary;
+        return "Social Media Manager; starts a new campaign every year; monthly salary of $" + MonthlyCost;
     }
 }
