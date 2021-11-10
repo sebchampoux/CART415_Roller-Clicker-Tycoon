@@ -41,7 +41,14 @@ public class Timer : MonoBehaviour
     public string[] Months => _months;
     
     public int Year => _currentDay / (DaysPerMonth * MonthsPerYear) + 1;
-    public string Month => _months[_currentDay / _daysPerMonth];
+    public string Month
+    {
+        get
+        {
+            int monthIndex = (_currentDay / _daysPerMonth) % MonthsPerYear;
+            return _months[monthIndex];
+        }
+    }
     public int Day => _currentDay % _daysPerMonth;
 
     public virtual void Start()
@@ -104,5 +111,10 @@ public class Timer : MonoBehaviour
     {
         _currentDay += DaysPerMonth * MonthsPerYear;
         InvokeNewYear();
+    }
+
+    public override string ToString()
+    {
+        return Month + " " + Day + ", Year " + Year;
     }
 }

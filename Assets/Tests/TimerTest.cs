@@ -102,6 +102,16 @@ public class TimerTest
         Assert.AreEqual(4, _timer.Year);
     }
 
+    [Test]
+    public void shouldPrintDateCorrectly()
+    {
+        for(int i = 0; i < 2; i++) { _timer.ElapseYear(); }
+        for(int i = 0; i < 2; i++) { _timer.ElapseMonth(); }
+        for(int i = 0; i < 15; i++) { _timer.ElapseDay(); }
+
+        Assert.AreEqual("July 16, Year 3", _timer.ToString());
+    }
+
     private void Timer_OnNewMonth(object sender, System.EventArgs e)
     {
         _newMonthWasCalled = true;
