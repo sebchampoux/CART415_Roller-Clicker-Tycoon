@@ -5,9 +5,16 @@ using UnityEngine;
 
 public class ListOfUnlockables<T> where T : IUnlockable
 {
-    public Park Park { get; set; }
-    public T[] Items { get; set; }
-    public IEnumerable<T> AllItems => Items;
+    private T[] _items;
+    private Park _park;
+
+    public ListOfUnlockables(T[] items, Park park)
+    {
+        _items = items;
+        _park = park;
+    }
+
+    public IEnumerable<T> AllItems => _items;
 
     public IEnumerable<T> AvailableItems
     {
@@ -19,9 +26,9 @@ public class ListOfUnlockables<T> where T : IUnlockable
         get
         {
             IList<T> result = new List<T>();
-            foreach (T item in Items)
+            foreach (T item in _items)
             {
-                if (Park.GuestsCount < item.GuestsToUnlock)
+                if (_park.GuestsCount < item.GuestsToUnlock)
                 {
                     result.Add(item);
                 }
@@ -33,9 +40,9 @@ public class ListOfUnlockables<T> where T : IUnlockable
     private IList<T> MakeListOfAvailableItems()
     {
         IList<T> result = new List<T>();
-        foreach (T item in Items)
+        foreach (T item in _items)
         {
-            if (Park.GuestsCount >= item.GuestsToUnlock)
+            if (_park.GuestsCount >= item.GuestsToUnlock)
             {
                 result.Add(item);
             }

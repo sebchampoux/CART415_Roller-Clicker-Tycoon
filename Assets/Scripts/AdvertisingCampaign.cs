@@ -7,7 +7,7 @@ public class AdvertisingCampaign : ParkOperation, IUnlockable
     [SerializeField] private string _campaignName;
     [SerializeField] private float _spawnRateIncrease = 1f;
     [SerializeField] private float _admissionFeeRebate = 0f;
-    [SerializeField] private int _guestsToUnlock;
+    [SerializeField] private int _guestsToUnlock = 0;
 
     public float SpawnRateIncrease
     {

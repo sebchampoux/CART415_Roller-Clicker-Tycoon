@@ -6,6 +6,12 @@ using UnityEngine;
 public class SocialMediaManager : Employee
 {
     public AdvertisingCampaign[] PossibleCampaignsPrefabs;
+    private ListOfUnlockables<AdvertisingCampaign> possibleCampaignList;
+
+    public void Start()
+    {
+        possibleCampaignList = new ListOfUnlockables<AdvertisingCampaign>(PossibleCampaignsPrefabs, Park);
+    }
 
     public override void OnNewYear(object sender, System.EventArgs e)
     {
@@ -14,8 +20,7 @@ public class SocialMediaManager : Employee
 
     private void StartNewAdCampaign()
     {
-        int campaignIndex = (int)UnityEngine.Random.Range(0, PossibleCampaignsPrefabs.Length - 1);
-        AdvertisingCampaign newCampaignPrefab = PossibleCampaignsPrefabs[campaignIndex];
+        AdvertisingCampaign newCampaignPrefab = possibleCampaignList.GetARandomAvailableItem();
         Park.StartAdCampaign(newCampaignPrefab);
     }
 

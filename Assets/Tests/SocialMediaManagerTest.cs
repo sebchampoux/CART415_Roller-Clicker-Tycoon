@@ -13,31 +13,29 @@ public class SocialMediaManagerTest
     [SetUp]
     public void SetUpTests()
     {
-        GameObject tempGameObject = new GameObject();
+        GameObject temp = new GameObject();
 
-        tempGameObject.AddComponent<MockTimer>();
-        _timer = tempGameObject.GetComponent<MockTimer>();
+        temp.AddComponent<MockTimer>();
+        _timer = temp.GetComponent<MockTimer>();
 
-        tempGameObject.AddComponent<SocialMediaManager>();
-        _smManager = tempGameObject.GetComponent<SocialMediaManager>();
+        temp.AddComponent<SocialMediaManager>();
+        _smManager = temp.GetComponent<SocialMediaManager>();
 
-        tempGameObject.AddComponent<MockPark>();
-        _park = tempGameObject.GetComponent<MockPark>();
+        temp.AddComponent<MockPark>();
+        _park = temp.GetComponent<MockPark>();
+        _park.SpawnGuests(500);
 
         _smManager.Park = _park;
+
+        temp.AddComponent<AdvertisingCampaign>();
+        AdvertisingCampaign campaign = temp.GetComponent<AdvertisingCampaign>();
+        _smManager.PossibleCampaignsPrefabs = new AdvertisingCampaign[] { campaign };
+        _smManager.Start();
     }
+
     [Test]
     public void shouldStartNewAdCampaignEachYear()
     {
-        GameObject temp = new GameObject();
-        temp.AddComponent<AdvertisingCampaign>();
-        AdvertisingCampaign campaign = temp.GetComponent<AdvertisingCampaign>();
-        campaign.MonthlyCost = 100f;
-        _smManager.PossibleCampaignsPrefabs = new AdvertisingCampaign[] { campaign };
-
-        // Park bankroll must be sufficient to start campaign
-        _park.AddToBankroll(1000f);
-        
         _timer.OnNewYear += _smManager.OnNewYear;
         Assert.IsFalse(_park.StartAdCampaignWasCalled());
         _timer.ElapseYear();

@@ -13,30 +13,29 @@ public class ParkPlannerTest
     [SetUp]
     public void SetUpTests()
     {
-        GameObject tempGameObject = new GameObject();
+        GameObject temp = new GameObject();
 
-        tempGameObject.AddComponent<MockTimer>();
-        _timer = tempGameObject.GetComponent<MockTimer>();
+        temp.AddComponent<MockTimer>();
+        _timer = temp.GetComponent<MockTimer>();
 
-        tempGameObject.AddComponent<ParkPlanner>();
-        _parkPlanner = tempGameObject.GetComponent<ParkPlanner>();
+        temp.AddComponent<ParkPlanner>();
+        _parkPlanner = temp.GetComponent<ParkPlanner>();
 
-        tempGameObject.AddComponent<MockPark>();
-        _park = tempGameObject.GetComponent<MockPark>();
+        temp.AddComponent<MockPark>();
+        _park = temp.GetComponent<MockPark>();
 
         _parkPlanner.Park = _park;
+
+
+        temp.AddComponent<Ride>();
+        Ride ride = temp.GetComponent<Ride>();
+        _parkPlanner.PossibleRidesPrefabs = new Ride[] { ride };
+        _parkPlanner.Start();
     }
 
     [Test]
     public void shouldBuildNewRideEachYear()
     {
-        GameObject temp = new GameObject();
-        temp.AddComponent<Ride>();
-        Ride ride = temp.GetComponent<Ride>();
-        ride.RideCost = 0f;
-
-        _parkPlanner.PossibleRidesPrefabs = new Ride[] { ride };
-
         _timer.OnNewYear += _parkPlanner.OnNewYear;
         Assert.IsFalse(_park.AddNewRideWasCalled());
         _timer.ElapseYear();

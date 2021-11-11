@@ -3,7 +3,7 @@ using System;
 
 public abstract class Employee : ParkOperation, IUpdatesYearly, IUnlockable
 {
-    [SerializeField] private int _guestsToUnlock;
+    [SerializeField] private int _guestsToUnlock = 0;
     public int GuestsToUnlock => _guestsToUnlock;
 
     public override void Terminate()

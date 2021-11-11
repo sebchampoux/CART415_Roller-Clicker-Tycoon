@@ -32,11 +32,8 @@ public class ListOfUnlockablesTest
     {
         GameObject temp = new GameObject();
 
-        _listOfUnlockables = new ListOfUnlockables<ConcreteUnlockable>();
-
         temp.AddComponent<SpecificMockPark>();
         _park = temp.GetComponent<SpecificMockPark>();
-
         _park.SetGuestsCount(250);
 
         _unlockables = new ConcreteUnlockable[]
@@ -48,8 +45,7 @@ public class ListOfUnlockablesTest
             new ConcreteUnlockable(500)
         };
 
-        _listOfUnlockables.Items = _unlockables;
-        _listOfUnlockables.Park = _park;
+        _listOfUnlockables = new ListOfUnlockables<ConcreteUnlockable>(_unlockables, _park);
     }
 
     [Test]
