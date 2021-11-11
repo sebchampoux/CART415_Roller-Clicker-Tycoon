@@ -6,7 +6,7 @@ using UnityEngine.TestTools;
 
 public class ListOfUnlockablesTest
 {
-    private ListOfUnlockables _listOfUnlockables;
+    private ListOfUnlockables<ConcreteUnlockable> _listOfUnlockables;
     private SpecificMockPark _park;
     private ConcreteUnlockable[] _unlockables;
 
@@ -32,8 +32,7 @@ public class ListOfUnlockablesTest
     {
         GameObject temp = new GameObject();
 
-        temp.AddComponent<ListOfUnlockables>();
-        _listOfUnlockables = temp.GetComponent<ListOfUnlockables>();
+        _listOfUnlockables = new ListOfUnlockables<ConcreteUnlockable>();
 
         temp.AddComponent<SpecificMockPark>();
         _park = temp.GetComponent<SpecificMockPark>();
@@ -90,5 +89,12 @@ public class ListOfUnlockablesTest
             Assert.AreEqual(_unlockables[i], it.Current);
         }
         Assert.IsFalse(it.MoveNext());
+    }
+
+    [Test]
+    public void shouldReturnARandomAvailableItem()
+    {
+        IUnlockable item = _listOfUnlockables.GetARandomAvailableItem();
+        Assert.GreaterOrEqual(_park.GuestsCount, item.GuestsToUnlock);
     }
 }

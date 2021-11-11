@@ -1,35 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ListOfUnlockables : MonoBehaviour
+public class ListOfUnlockables<T> where T : IUnlockable
 {
     public Park Park { get; set; }
-    public IUnlockable[] Items { get; set; }
-    public IEnumerable<IUnlockable> AllItems => Items;
+    public T[] Items { get; set; }
+    public IEnumerable<T> AllItems => Items;
 
-    public IEnumerable<IUnlockable> AvailableItems
+    public IEnumerable<T> AvailableItems
     {
-        get
-        {
-            IList<IUnlockable> result = new List<IUnlockable>();
-            foreach(IUnlockable item in Items)
-            {
-                if (Park.GuestsCount >= item.GuestsToUnlock)
-                {
-                    result.Add(item);
-                }
-            }
-            return result;
-        }
+        get => MakeListOfAvailableItems();
     }
 
-    public IEnumerable<IUnlockable> LockedItems
+    public IEnumerable<T> LockedItems
     {
         get
         {
-            IList<IUnlockable> result = new List<IUnlockable>();
-            foreach (IUnlockable item in Items)
+            IList<T> result = new List<T>();
+            foreach (T item in Items)
             {
                 if (Park.GuestsCount < item.GuestsToUnlock)
                 {
@@ -38,5 +28,25 @@ public class ListOfUnlockables : MonoBehaviour
             }
             return result;
         }
+    }
+
+    private IList<T> MakeListOfAvailableItems()
+    {
+        IList<T> result = new List<T>();
+        foreach (T item in Items)
+        {
+            if (Park.GuestsCount >= item.GuestsToUnlock)
+            {
+                result.Add(item);
+            }
+        }
+        return result;
+    }
+
+    public T GetARandomAvailableItem()
+    {
+        IList<T> availableItems = MakeListOfAvailableItems();
+        int randomIndex = (int)UnityEngine.Random.Range(0, availableItems.Count - 1);
+        return availableItems[randomIndex];
     }
 }
