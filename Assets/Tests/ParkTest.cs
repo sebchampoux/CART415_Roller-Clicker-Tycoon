@@ -230,6 +230,32 @@ public class ParkTest
         Assert.IsFalse(shopsAfterAdd.MoveNext()); // Contains one shop
     }
 
+    [Test]
+    public void shouldCloseRideCorrectly()
+    {
+        Ride ridePrefab = CreateMockRide();
+
+        _park.AddNewRide(ridePrefab);
+        IEnumerator<Ride> ridesBeforeRemove = _park.Rides.GetEnumerator();
+        ridesBeforeRemove.MoveNext();
+        _park.CloseRide(ridesBeforeRemove.Current);
+        IEnumerator<Ride> ridesAfterRemove = _park.Rides.GetEnumerator();
+        Assert.IsFalse(ridesAfterRemove.MoveNext());
+    }
+
+    [Test]
+    public void shouldCloseShopCorrectly()
+    {
+        Shop shopPrefab = CreateMockShop();
+
+        _park.AddNewShop(shopPrefab);
+        IEnumerator<Shop> shopsBeforeRemove = _park.Shops.GetEnumerator();
+        shopsBeforeRemove.MoveNext();
+        _park.CloseShop(shopsBeforeRemove.Current);
+        IEnumerator<Shop> shopsAfterRemove = _park.Shops.GetEnumerator();
+        Assert.IsFalse(shopsAfterRemove.MoveNext());
+    }
+
     private static AdvertisingCampaign CreateAdCampaign(float rebateToAdmissionFee = 0f, float spawnRateIncrease = 1f)
     {
         GameObject temp = new GameObject();

@@ -195,6 +195,7 @@ public class Park : MonoBehaviour
         newRide.Park = this;
         newRide.transform.parent = transform;
         _timer.OnNewDay += newRide.OnNewDay;
+        _timer.OnNewMonth += newRide.OnNewMonth;
         _rides.Add(newRide);
         
         ComputeAdmissionFee();
@@ -203,7 +204,12 @@ public class Park : MonoBehaviour
 
     public virtual void CloseRide(Ride ride)
     {
-        throw new System.NotImplementedException();
+        _timer.OnNewDay -= ride.OnNewDay;
+        _timer.OnNewMonth -= ride.OnNewMonth;
+        _rides.Remove(ride);
+        Destroy(ride);
+        ComputeAdmissionFee();
+        OnParkOperationsChange?.Invoke(this, null);
     }
 
     public void AddNewShop(Shop shopPrefab)
@@ -216,12 +222,17 @@ public class Park : MonoBehaviour
         shop.Park = this;
         shop.transform.parent = transform;
         _timer.OnNewDay += shop.OnNewDay;
+        _timer.OnNewMonth += shop.OnNewMonth;
         _shops.Add(shop);
         OnParkOperationsChange?.Invoke(this, null);
     }
 
     public virtual void CloseShop(Shop shop)
     {
-        throw new System.NotImplementedException();
+        _timer.OnNewDay -= shop.OnNewDay;
+        _timer.OnNewMonth -= shop.OnNewMonth;
+        _shops.Remove(shop);
+        Destroy(shop);
+        OnParkOperationsChange?.Invoke(this, null);
     }
 }
