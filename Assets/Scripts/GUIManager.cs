@@ -7,58 +7,34 @@ using System;
 public class GUIManager : MonoBehaviour
 {
     public Park _park;
-    public TextMeshProUGUI _statusText;
-    private string _parkOperationsDisplay;
+    public Timer _timer;
+    public TextMeshProUGUI _guestsCountText;
+    public TextMeshProUGUI _moneyText;
+    public TextMeshProUGUI _dateText;
 
     private void Start()
     {
-        _park.OnBankrollChange += OnGuestsBankrollChange;
-        _park.OnGuestsCountChange += OnGuestsBankrollChange;
-        _park.OnParkOperationsChange += OnParkOperationsChange;
-        OnParkOperationsChange(this, null);
+        _timer.OnNewDay += UpdateDateIndicator;
+        _park.OnGuestsCountChange += UpdateGuestsIndicator;
+        _park.OnBankrollChange += UpdateBankrollIndicator;
+
+        UpdateDateIndicator(this, null);
+        UpdateGuestsIndicator(this, null);
+        UpdateBankrollIndicator(this, null);
     }
 
-    private void OnParkOperationsChange(object sender, EventArgs e)
+    private void UpdateBankrollIndicator(object sender, EventArgs e)
     {
-        ComputeParkOperationsText();
-        ComputeParkDataText();
+        _moneyText.text = _park.Bankroll.ToString("C");
     }
 
-    private void ComputeParkOperationsText()
+    private void UpdateGuestsIndicator(object sender, EventArgs e)
     {
-        _parkOperationsDisplay = "Rides:\n";
-        foreach (Ride ride in _park.Rides)
-        {
-            _parkOperationsDisplay += ride + "\n";
-        }
-        _parkOperationsDisplay += "\nShops:\n";
-        foreach (Shop shop in _park.Shops)
-        {
-            _parkOperationsDisplay += shop + "\n";
-        }
-        _parkOperationsDisplay += "\nAdvertising Campaigns:\n";
-        foreach (AdvertisingCampaign campaign in _park.AdvertisingCampaigns)
-        {
-            _parkOperationsDisplay += campaign + "\n";
-        }
-        _parkOperationsDisplay += "\nEmployees:\n";
-        foreach (Employee employee in _park.Employees)
-        {
-            _parkOperationsDisplay += employee + "\n";
-        }
+        _guestsCountText.text = _park.GuestsCount.ToString();
     }
 
-    private void OnGuestsBankrollChange(object sender, System.EventArgs e)
+    private void UpdateDateIndicator(object sender, EventArgs e)
     {
-        ComputeParkDataText();
-    }
-
-    private void ComputeParkDataText()
-    {
-        string statusText = "";
-        statusText += "Guests: " + _park.GuestsCount + "\n";
-        statusText += "Bankroll: $" + _park.Bankroll + "\n";
-        statusText += "\n" + _parkOperationsDisplay;
-        _statusText.text = statusText;
+        _dateText.text = _timer.ToString();
     }
 }
