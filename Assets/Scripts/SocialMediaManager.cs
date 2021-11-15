@@ -24,8 +24,9 @@ public class SocialMediaManager : Employee
         Park.StartAdCampaign(newCampaignPrefab);
     }
 
-    public override string ToString()
+    public override string GetDescription()
     {
-        return "Social Media Manager; starts a new campaign every year; monthly salary of $" + MonthlyCost;
+        return "Monthly salary: $" + MonthlyCost.ToString("C") + "\n"
+            + "Starts a new ad campaign each year";
     }
 }

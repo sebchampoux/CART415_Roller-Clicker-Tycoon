@@ -18,4 +18,10 @@ public class ParkPlanner : Employee
         Ride prefab = possibleRidesList.GetARandomAvailableItem();
         Park.AddNewRide(prefab);
     }
+
+    public override string GetDescription()
+    {
+        return "Monthly salary: $" + MonthlyCost.ToString("C") + "\n"
+            + "Builds a new ride every year";
+    }
 }

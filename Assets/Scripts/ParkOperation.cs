@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class ParkOperation : MonoBehaviour, IUpdatesMonthly
 {
     [SerializeField] private float _monthlyCost = 0f;
-
+    public string Name;
+    public Image Icon;
     public Park Park { get; set; }
     public float MonthlyCost
     {
@@ -26,4 +28,5 @@ public abstract class ParkOperation : MonoBehaviour, IUpdatesMonthly
     }
 
     public abstract void Terminate();
+    public abstract string GetDescription();
 }

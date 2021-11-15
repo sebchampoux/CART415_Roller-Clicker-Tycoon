@@ -7,6 +7,11 @@ public class EmployeeTest
 {
     public class ConcreteEmployee : Employee
     {
+        public override string GetDescription()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void OnNewYear(object sender, EventArgs e)
         {
             throw new NotImplementedException();

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AdvertisingCampaign : ParkOperation, IUnlockable
 {
-    [SerializeField] private string _campaignName;
     [SerializeField] private float _spawnRateIncrease = 1f;
     [SerializeField] private float _admissionFeeRebate = 0f;
     [SerializeField] private int _guestsToUnlock = 0;
@@ -22,13 +21,15 @@ public class AdvertisingCampaign : ParkOperation, IUnlockable
 
     public int GuestsToUnlock => _guestsToUnlock;
 
+    public override string GetDescription()
+    {
+        return "Monthly operation cost: $" + MonthlyCost.ToString("C") + "\n"
+            + "Increases spawn rate by " + _spawnRateIncrease + "x\n"
+            + "Offers an entrance rebate of -$" + _admissionFeeRebate.ToString("C") + " to each new guest";
+    }
+
     public override void Terminate()
     {
         Park.StopAdCampaign(this);
-    }
-
-    public override string ToString()
-    {
-        return _campaignName + "; $" + MonthlyCost + "/month, " + SpawnRateIncrease + "x spawn rate increase, rebate of $" + AdmissionFeeRebate + " on admission fee.";
     }
 }

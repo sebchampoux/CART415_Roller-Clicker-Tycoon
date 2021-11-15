@@ -10,6 +10,12 @@ public class ParkOperationTest
     {
         private bool _wasTerminated = false;
         public bool Terminated => _wasTerminated;
+
+        public override string GetDescription()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void Terminate()
         {
             _wasTerminated = true;
