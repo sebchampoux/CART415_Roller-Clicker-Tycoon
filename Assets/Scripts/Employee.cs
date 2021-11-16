@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 using System;
 
-public abstract class Employee : ParkOperation, IUpdatesYearly, IUnlockable
+public abstract class Employee : ParkOperation, IUpdatesYearly
 {
-    [SerializeField] private int _guestsToUnlock = 0;
-    public int GuestsToUnlock => _guestsToUnlock;
-
     public override void Terminate()
     {
         Park.FurloughEmployee(this);

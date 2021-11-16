@@ -1,19 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public abstract class ParkOperation : MonoBehaviour, IUpdatesMonthly
+public abstract class ParkOperation : MonoBehaviour, IUnlockable, IUpdatesMonthly
 {
     [SerializeField] private float _monthlyCost = 0f;
+    [SerializeField] private int _guestsToUnlock;
     public string Name;
-    public Image Icon;
+    public Sprite Icon;
+
     public Park Park { get; set; }
     public float MonthlyCost
     {
         get => _monthlyCost;
         set { _monthlyCost = Mathf.Max(0f, value); }
     }
+
+    public int GuestsToUnlock => _guestsToUnlock;
 
     public void OnNewMonth(object sender, System.EventArgs e)
     {

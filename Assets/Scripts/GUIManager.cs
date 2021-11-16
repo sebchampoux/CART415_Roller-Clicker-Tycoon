@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
-
 public class GUIManager : MonoBehaviour
 {
     public Park _park;
@@ -36,5 +35,10 @@ public class GUIManager : MonoBehaviour
     private void UpdateDateIndicator(object sender, EventArgs e)
     {
         _dateText.text = _timer.ToString();
+    }
+
+    public void OpenModal(Modal modal)
+    {
+        modal.OpenModal();
     }
 }
