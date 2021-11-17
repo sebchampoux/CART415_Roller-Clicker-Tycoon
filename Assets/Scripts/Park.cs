@@ -54,7 +54,7 @@ public class Park : MonoBehaviour
     public float Bankroll
     {
         get { return _bankroll; }
-        private set
+        protected set
         {
             _bankroll = Mathf.Max(0, value);
             OnBankrollChange?.Invoke(this, null);
@@ -185,11 +185,11 @@ public class Park : MonoBehaviour
 
     public virtual void AddNewRide(Ride ridePrefab)
     {
-        if (Bankroll < ridePrefab.RideCost)
+        if (Bankroll < ridePrefab.InitialCost)
         {
             return;
         }
-        SpendMoney(ridePrefab.RideCost);
+        SpendMoney(ridePrefab.InitialCost);
 
         Ride newRide = Instantiate(ridePrefab);
         newRide.Park = this;
@@ -214,7 +214,7 @@ public class Park : MonoBehaviour
 
     public void AddNewShop(Shop shopPrefab)
     {
-        if (Bankroll < shopPrefab.ShopCost)
+        if (Bankroll < shopPrefab.InitialCost)
         {
             return;
         }

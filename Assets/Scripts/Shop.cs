@@ -6,13 +6,11 @@ using UnityEngine;
 public class Shop : ParkOperation, IUpdatesDaily
 {
     [SerializeField] private float _profitPerItem = 1f;
-    [SerializeField] private float _shopCost = 0f;
     public float ProfitPerItem => _profitPerItem;
-    public float ShopCost => _shopCost;
 
     public override string GetDescription()
     {
-        return "Cost: " + _shopCost.ToString("C") + "\n"
+        return "Cost: " + InitialCost.ToString("C") + "\n"
             + "Monthly operation cost: " + MonthlyCost.ToString("C") + "\n"
             + "Makes each guest spend " + _profitPerItem.ToString("C") + " per day\n";
     }

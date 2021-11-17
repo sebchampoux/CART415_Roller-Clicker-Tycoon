@@ -16,15 +16,26 @@ public class ListOfUnlockablesTest
         {
             GuestsCount = guests;
         }
+        public void SetBankroll(float bankroll)
+        {
+            Bankroll = bankroll;
+        }
     }
 
     private class ConcreteUnlockable : IUnlockable
     {
-        public ConcreteUnlockable(int guestsToUnlock)
+        public ConcreteUnlockable(int guestsToUnlock, float initialCost)
         {
             GuestsToUnlock = guestsToUnlock;
+            InitialCost = initialCost;
         }
-        public int GuestsToUnlock { get; set; }
+        public int GuestsToUnlock { get; private set; }
+        public float InitialCost { get; private set; }
+
+        public override string ToString()
+        {
+            return "[" + GuestsToUnlock + " guests to unlock; $" + InitialCost + " initial cost]";
+        }
     }
 
     [SetUp]
@@ -35,14 +46,16 @@ public class ListOfUnlockablesTest
         temp.AddComponent<SpecificMockPark>();
         _park = temp.GetComponent<SpecificMockPark>();
         _park.SetGuestsCount(250);
+        _park.SetBankroll(100f);
 
         _unlockables = new ConcreteUnlockable[]
         {
-            new ConcreteUnlockable(100),
-            new ConcreteUnlockable(150),
-            new ConcreteUnlockable(250),
-            new ConcreteUnlockable(400),
-            new ConcreteUnlockable(500)
+            new ConcreteUnlockable(100, 50f),   // Available
+            new ConcreteUnlockable(150, 50f),   // Available
+            new ConcreteUnlockable(250, 50f),   // Available
+            new ConcreteUnlockable(150, 150f),  // UnAvailable
+            new ConcreteUnlockable(400, 50f),   // Unavailable
+            new ConcreteUnlockable(500, 50f)    // Unavailable
         };
 
         _listOfUnlockables = new ListOfUnlockables<ConcreteUnlockable>(_unlockables, _park);

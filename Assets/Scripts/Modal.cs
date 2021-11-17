@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Modal : MonoBehaviour
+public abstract class Modal : MonoBehaviour
 {
+    [SerializeField] protected Park _park;
     [SerializeField] private ParkOperation[] _items;
-    [SerializeField] private Park _park;
     [SerializeField] private NewParkOpButton _newItemButtonPrefab;
     [SerializeField] private VerticalLayoutGroup _scrollViewContent;
 
@@ -23,12 +23,13 @@ public class Modal : MonoBehaviour
 
     private void CreateItemsButtons()
     {
-        foreach(ParkOperation item in _listOfItems.AllItems)
+        foreach (ParkOperation item in _listOfItems.AllItems)
         {
             NewParkOpButton newItemButton = Instantiate(_newItemButtonPrefab);
             newItemButton.transform.SetParent(_scrollViewContent.transform);
             newItemButton.transform.localScale = new Vector3(1f, 1f);
             newItemButton.Item = item;
+            newItemButton.ButtonComponent.onClick.AddListener(() => AddNewElementToPark(item));
             _itemsButtons.Add(newItemButton);
         }
         LayoutRebuilder.MarkLayoutForRebuild(_scrollViewContent.gameObject.GetComponent<RectTransform>());
@@ -43,7 +44,11 @@ public class Modal : MonoBehaviour
 
     private void UpdateAvailableItemsList(object sender, EventArgs e)
     {
-        // Go through the items, update their availability
+        IList<ParkOperation> available = _listOfItems.AvailableItems;
+        foreach (NewParkOpButton itemBtn in _itemsButtons)
+        {
+            itemBtn.ButtonComponent.interactable = available.Contains(itemBtn.Item);
+        }
     }
 
     public void OpenModal()
@@ -55,4 +60,6 @@ public class Modal : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
+    public abstract void AddNewElementToPark(ParkOperation item);
 }

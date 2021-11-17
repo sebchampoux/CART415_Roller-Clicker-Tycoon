@@ -16,38 +16,45 @@ public class ListOfUnlockables<T> where T : IUnlockable
 
     public IEnumerable<T> AllItems => _items;
 
-    public IEnumerable<T> AvailableItems
+    public IList<T> AvailableItems
     {
-        get => MakeListOfAvailableItems();
+        get => MakeListOfAvailableItems().AsReadOnly();
     }
 
-    public IEnumerable<T> LockedItems
+    public IList<T> LockedItems
     {
-        get
-        {
-            IList<T> result = new List<T>();
-            foreach (T item in _items)
-            {
-                if (_park.GuestsCount < item.GuestsToUnlock)
-                {
-                    result.Add(item);
-                }
-            }
-            return result;
-        }
+        get => MakeListOfLockedItems().AsReadOnly();
     }
 
-    private IList<T> MakeListOfAvailableItems()
+    private List<T> MakeListOfLockedItems()
     {
-        IList<T> result = new List<T>();
+        List<T> result = new List<T>();
         foreach (T item in _items)
         {
-            if (_park.GuestsCount >= item.GuestsToUnlock)
+            if (!isAvailable(item))
             {
                 result.Add(item);
             }
         }
         return result;
+    }
+
+    private List<T> MakeListOfAvailableItems()
+    {
+        List<T> result = new List<T>();
+        foreach (T item in _items)
+        {
+            if (isAvailable(item))
+            {
+                result.Add(item);
+            }
+        }
+        return result;
+    }
+
+    private bool isAvailable(T item)
+    {
+        return _park.GuestsCount >= item.GuestsToUnlock && _park.Bankroll >= item.InitialCost;
     }
 
     public T GetARandomAvailableItem()

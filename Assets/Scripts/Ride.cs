@@ -6,23 +6,18 @@ public class Ride : ParkOperation, IUpdatesDaily
 {
     [SerializeField] private float _contributionToAdmissionFee = 0f;
     [SerializeField] private int _numberOfGuestsToSpawn = 1;
-    [SerializeField] private float _rideCost = 0f;
 
     public float ContributionToAdmissionFee
     {
         get => _contributionToAdmissionFee;
         set { _contributionToAdmissionFee = Mathf.Max(0f, value); }
     }
-    public float RideCost
-    {
-        get => _rideCost;
-        set { _rideCost = Mathf.Max(0f, value); }
-    }
+
     public int NumberOfGuestsToSpawn => _numberOfGuestsToSpawn;
 
     public override string GetDescription()
     {
-        return "Cost: " + _rideCost.ToString("C") + "\n"
+        return "Cost: " + InitialCost.ToString("C") + "\n"
             + "Monthly operation cost: " + MonthlyCost.ToString("C") + "\n"
             + "Contribution to admission fee: + " + _contributionToAdmissionFee.ToString("C") + "\n"
             + "Spawns " + _numberOfGuestsToSpawn + " guests / day";
