@@ -18,6 +18,7 @@ public class Ride : ParkOperation, IUpdatesDaily
     public override string GetDescription()
     {
         return "Cost: " + InitialCost.ToString("C") + "\n"
+            + "Unlocks at " + GuestsToUnlock + " guests\n"
             + "Monthly operation cost: " + MonthlyCost.ToString("C") + "\n"
             + "Contribution to admission fee: + " + _contributionToAdmissionFee.ToString("C") + "\n"
             + "Spawns " + _numberOfGuestsToSpawn + " guests / day";

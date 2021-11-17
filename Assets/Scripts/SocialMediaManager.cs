@@ -27,6 +27,7 @@ public class SocialMediaManager : Employee
     public override string GetDescription()
     {
         return "Monthly salary: " + MonthlyCost.ToString("C") + "\n"
+            + "Unlocks at " + GuestsToUnlock + " guests\n"
             + "Starts a new ad campaign each year";
     }
 }

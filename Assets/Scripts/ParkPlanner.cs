@@ -21,7 +21,8 @@ public class ParkPlanner : Employee
 
     public override string GetDescription()
     {
-        return "Monthly salary: $" + MonthlyCost.ToString("C") + "\n"
+        return "Monthly salary: " + MonthlyCost.ToString("C") + "\n"
+            + "Unlocks at " + GuestsToUnlock + " guests\n"
             + "Builds a new ride every year";
     }
 }

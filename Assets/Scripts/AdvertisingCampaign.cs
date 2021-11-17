@@ -20,7 +20,8 @@ public class AdvertisingCampaign : ParkOperation
 
     public override string GetDescription()
     {
-        return "Monthly operation cost: " + MonthlyCost.ToString("C") + "\n"
+        return "Monthly running cost: " + MonthlyCost.ToString("C") + "\n"
+            + "Unlocks at " + GuestsToUnlock + " guests\n"
             + "Increases spawn rate by " + _spawnRateIncrease + "x\n"
             + "Offers an entrance rebate of -" + _admissionFeeRebate.ToString("C") + " to each new guest";
     }

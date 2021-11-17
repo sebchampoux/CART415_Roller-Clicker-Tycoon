@@ -11,6 +11,7 @@ public class Shop : ParkOperation, IUpdatesDaily
     public override string GetDescription()
     {
         return "Cost: " + InitialCost.ToString("C") + "\n"
+            + "Unlocks at " + GuestsToUnlock + " guests\n"
             + "Monthly operation cost: " + MonthlyCost.ToString("C") + "\n"
             + "Makes each guest spend " + _profitPerItem.ToString("C") + " per day\n";
     }
