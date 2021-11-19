@@ -43,10 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6832a54138979742ae682d88b0cc09a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _monthlyCost: 500
-  _guestsToUnlock: 50
-  _initialCost: 1000
+  _monthlyCost: 1000
+  _guestsToUnlock: 100
+  _initialCost: 500
   Name: Burger Shop
   Icon: {fileID: 21300000, guid: 8215fb90b0c9a6e4f9b794064d2417b1, type: 3}
   Park: {fileID: 0}
-  _profitPerItem: 1.5
+  _profitPerItem: 0.75

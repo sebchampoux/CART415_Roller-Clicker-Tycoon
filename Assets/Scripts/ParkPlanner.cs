@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class ParkPlanner : Employee
 {
-    public Ride[] PossibleRidesPrefabs { get; set; }
+    public Ride[] PossibleRidesPrefabs;
     private ListOfUnlockables<Ride> possibleRidesList;
 
-    public void Start()
+    public override void Start()
     {
         possibleRidesList = new ListOfUnlockables<Ride>(PossibleRidesPrefabs, Park);
     }

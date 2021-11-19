@@ -8,8 +8,9 @@ public class SocialMediaManager : Employee
     public AdvertisingCampaign[] PossibleCampaignsPrefabs;
     private ListOfUnlockables<AdvertisingCampaign> possibleCampaignList;
 
-    public void Start()
+    public override void Start()
     {
+        base.Start();
         possibleCampaignList = new ListOfUnlockables<AdvertisingCampaign>(PossibleCampaignsPrefabs, Park);
     }
 

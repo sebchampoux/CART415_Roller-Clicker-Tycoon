@@ -43,11 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb6efa192b594cb48931c28eff36e71d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _monthlyCost: 6000
-  _guestsToUnlock: 10000
+  _monthlyCost: 10000
+  _guestsToUnlock: 1000
   _initialCost: 0
   Name: Public Transit Ad Campaign
   Icon: {fileID: 21300000, guid: 23a04e1d7511c7446955428cec4291f9, type: 3}
   Park: {fileID: 0}
-  _spawnRateIncrease: 2.5
-  _admissionFeeRebate: 10
+  _spawnRateIncrease: 1.25
+  _admissionFeeRebate: 7.5

@@ -7,6 +7,10 @@ public class Park : MonoBehaviour
 {
     [SerializeField] private float _baseAdmissionFee = 10f;
     [SerializeField] private Timer _timer;
+    [SerializeField] private Transform _ridesPanel;
+    [SerializeField] private Transform _shopsPanel;
+    [SerializeField] private Transform _adsPanel;
+    [SerializeField] private Transform _staffPanel;
 
     private float _admissionFee = 10f;
     private float _computedSpawnRate = 1f;
@@ -56,7 +60,7 @@ public class Park : MonoBehaviour
         get { return _bankroll; }
         protected set
         {
-            _bankroll = Mathf.Max(0, value);
+            _bankroll = value;
             OnBankrollChange?.Invoke(this, null);
         }
     }
@@ -143,7 +147,8 @@ public class Park : MonoBehaviour
             return;
         }
         AdvertisingCampaign campaign = Instantiate(campaignPrefab);
-        campaign.transform.parent = transform;
+        campaign.transform.parent = _adsPanel;
+        campaign.transform.localScale = Vector3.one;
         campaign.Park = this;
         _runningCampaigns.Add(campaign);
         _timer.OnNewMonth += campaign.OnNewMonth;
@@ -168,7 +173,8 @@ public class Park : MonoBehaviour
         Employee employee = Instantiate(employeePrefab);
         _timer.OnNewMonth += employee.OnNewMonth;
         _timer.OnNewYear += employee.OnNewYear;
-        employee.transform.parent = transform;
+        employee.transform.parent = _staffPanel;
+        employee.transform.localScale = Vector3.one;
         employee.Park = this;
         _employees.Add(employee);
         OnParkOperationsChange?.Invoke(this, null);
@@ -193,7 +199,8 @@ public class Park : MonoBehaviour
 
         Ride newRide = Instantiate(ridePrefab);
         newRide.Park = this;
-        newRide.transform.parent = transform;
+        newRide.transform.parent = _ridesPanel;
+        newRide.transform.localScale = Vector3.one;
         _timer.OnNewDay += newRide.OnNewDay;
         _timer.OnNewMonth += newRide.OnNewMonth;
         _rides.Add(newRide);
@@ -220,7 +227,8 @@ public class Park : MonoBehaviour
         }
         Shop shop = Instantiate(shopPrefab);
         shop.Park = this;
-        shop.transform.parent = transform;
+        shop.transform.parent = _shopsPanel;
+        shop.transform.localScale = Vector3.one;
         _timer.OnNewDay += shop.OnNewDay;
         _timer.OnNewMonth += shop.OnNewMonth;
         _shops.Add(shop);

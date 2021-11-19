@@ -49,4 +49,8 @@ MonoBehaviour:
   Name: Social Media Manager
   Icon: {fileID: 21300000, guid: 41281ca16211d9d4bae396aec4f8dd4c, type: 3}
   Park: {fileID: 0}
-  PossibleCampaignsPrefabs: []
+  PossibleCampaignsPrefabs:
+  - {fileID: 8473894368459106287, guid: b381fa799d60e6a498f5e18cfba8a5e5, type: 3}
+  - {fileID: 8473894368459106287, guid: fd23d4e64358f2c4689b4ab366a1749b, type: 3}
+  - {fileID: 1512514126220393839, guid: 76d7855da1e26c74b8b9c521e194f662, type: 3}
+  - {fileID: 8473894368459106287, guid: 3fca31e5c9addf143a234ce760e56a93, type: 3}

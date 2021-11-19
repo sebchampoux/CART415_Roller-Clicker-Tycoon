@@ -43,9 +43,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76aff20a944422141a2c873e33cef0cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _monthlyCost: 5000
-  _guestsToUnlock: 1000
+  _monthlyCost: 10000
+  _guestsToUnlock: 5000
   _initialCost: 0
   Name: Park Planner
   Icon: {fileID: 21300000, guid: 41281ca16211d9d4bae396aec4f8dd4c, type: 3}
   Park: {fileID: 0}
+  PossibleRidesPrefabs:
+  - {fileID: 7860735402941658563, guid: f7581ea8e95281a409ad04175e3493c2, type: 3}
+  - {fileID: 7860735402941658563, guid: 1a926e7beb8859146b2b3eece022b735, type: 3}
+  - {fileID: 7860735402941658563, guid: 04533fc22fda85e4194a398aa8c63a37, type: 3}
+  - {fileID: 7860735402941658563, guid: da68b203e60285043b527fa30505019d, type: 3}
+  - {fileID: 7860735402941658563, guid: f7fe10f9c493c9e4a844d42c7fb70bb0, type: 3}
+  - {fileID: 7860735402941658563, guid: 369fc5bc63e95bf4088859cefcda036c, type: 3}
+  - {fileID: 7860735402941658563, guid: 3f53f8ad4f81ad6488076267d1396b88, type: 3}
+  - {fileID: 7860735402941658563, guid: ce408c06ac0539442ad4c41f1bd71186, type: 3}
+  - {fileID: 7860735402941658563, guid: 010a337acd7c7c24596ac1135690a768, type: 3}
+  - {fileID: 6294733902037093423, guid: 4591d8a758316eb4083e438a616b03fa, type: 3}

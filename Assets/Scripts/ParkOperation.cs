@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class ParkOperation : MonoBehaviour, IUnlockable, IUpdatesMonthly
 {
@@ -10,6 +12,8 @@ public abstract class ParkOperation : MonoBehaviour, IUnlockable, IUpdatesMonthl
     public string Name;
     public Sprite Icon;
     public Park Park;
+    private Image _imageComponent;
+
     public float MonthlyCost
     {
         get => _monthlyCost;
@@ -37,4 +41,16 @@ public abstract class ParkOperation : MonoBehaviour, IUnlockable, IUpdatesMonthl
 
     public abstract void Terminate();
     public abstract string GetDescription();
+
+    public virtual void Start()
+    {
+        MakeImageComponent();
+    }
+
+    private void MakeImageComponent()
+    {
+        gameObject.AddComponent<Image>();
+        _imageComponent = GetComponent<Image>();
+        _imageComponent.sprite = Icon;
+    }
 }

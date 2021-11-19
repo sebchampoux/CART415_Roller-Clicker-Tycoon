@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7390959115930801980}
   - component: {fileID: 7860735402941658563}
   m_Layer: 0
-  m_Name: Ride_Carousel
+  m_Name: Ride_Enterprise
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,11 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0625c4adb69db98419e44902449378a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _monthlyCost: 250
-  _guestsToUnlock: 25
-  _initialCost: 250
-  Name: Merry-Go-Round
-  Icon: {fileID: 21300000, guid: a41685a485b61654e9aa6390328f1b18, type: 3}
+  _monthlyCost: 5000
+  _guestsToUnlock: 1000
+  _initialCost: 10000
+  Name: Enterprise
+  Icon: {fileID: 21300000, guid: eb51a51c28b798e419f45c2898b21418, type: 3}
   Park: {fileID: 0}
-  _contributionToAdmissionFee: 2
-  _numberOfGuestsToSpawn: 1
+  _contributionToAdmissionFee: 7
+  _numberOfGuestsToSpawn: 7
