@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewAdsCampaignModal : Modal
+public class NewAdsCampaignModal : NewParkItemModal
 {
     public override void AddNewElementToPark(ParkOperation item)
     {

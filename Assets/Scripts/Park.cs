@@ -91,6 +91,7 @@ public class Park : MonoBehaviour
     }
 
     public IEnumerable<Award> Awards => _awards;
+    public Award LatestAward => _awards[_awards.Count - 1];
 
     public void Start()
     {

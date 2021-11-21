@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewRidesModal : Modal
+public class NewRidesModal : NewParkItemModal
 {
     public override void AddNewElementToPark(ParkOperation item)
     {

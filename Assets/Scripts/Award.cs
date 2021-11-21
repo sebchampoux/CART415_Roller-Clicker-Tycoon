@@ -12,4 +12,9 @@ public class Award : MonoBehaviour, IUnlockable
     public float InitialCost => 0f;
     public string Name => _name;
     public string Description => _description;
+
+    public override string ToString()
+    {
+        return _name + " [" + _guestsToUnlock + " guests to unlock]";
+    }
 }

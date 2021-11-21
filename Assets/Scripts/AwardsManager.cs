@@ -9,10 +9,18 @@ public class AwardsManager : MonoBehaviour
     public Park _park;
     private int _nextAward = 0;
 
-    public void Start()
+    private class AwardsComparer : IComparer<Award>
+    {
+        public int Compare(Award x, Award y)
+        {
+            return x.GuestsToUnlock.CompareTo(y.GuestsToUnlock);
+        }
+    }
+
+    public void Awake()
     {
         _park.OnGuestsCountChange += OnGuestsCountChange;
-        Array.Sort(Awards, (a1, a2) => a2.GuestsToUnlock - a1.GuestsToUnlock);
+        Array.Sort(Awards, new AwardsComparer());
     }
 
     public void OnGuestsCountChange(object sender, EventArgs e)
@@ -23,9 +31,10 @@ public class AwardsManager : MonoBehaviour
             _park.OnGuestsCountChange -= OnGuestsCountChange;
             Destroy(gameObject);
         }
-        if (_park.GuestsCount >= Awards[_nextAward].GuestsToUnlock)
+        Award nextAward = Awards[_nextAward];
+        if (_park.GuestsCount >= nextAward.GuestsToUnlock)
         {
-            _park.AddAward(Awards[_nextAward]);
+            _park.AddAward(nextAward);
             _nextAward++;
         }
     }

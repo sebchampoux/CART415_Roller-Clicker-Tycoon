@@ -36,9 +36,4 @@ public class GUIManager : MonoBehaviour
     {
         _dateText.text = _timer.ToString();
     }
-
-    public void OpenModal(Modal modal)
-    {
-        modal.OpenModal();
-    }
 }
