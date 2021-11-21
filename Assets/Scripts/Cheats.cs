@@ -6,6 +6,7 @@ public class Cheats : MonoBehaviour
 {
     public Park park;
     public Ride ridePrefab;
+    public AudioSource toiletSoundFX;
 
     void Update()
     {
@@ -22,6 +23,10 @@ public class Cheats : MonoBehaviour
             park.SpawnGuests(ridePrefab.GuestsToUnlock);
             park.AddToBankroll(ridePrefab.InitialCost);
             park.AddNewRide(ridePrefab);
+        }
+        else if (Input.GetKeyDown(KeyCode.T))
+        {
+            toiletSoundFX.Play();
         }
     }
 }

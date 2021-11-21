@@ -8,6 +8,7 @@ public class AwardNotification : AwardDisplay
     public Park park;
     public float displayTime = 5f;
     public Transform positionTransform;
+    public AudioSource soundOnOpen;
 
     public void Awake()
     {
@@ -27,5 +28,6 @@ public class AwardNotification : AwardDisplay
     {
         yield return new WaitForSeconds(displayTime);
         gameObject.SetActive(false);
+        soundOnOpen.Play();
     }
 }
