@@ -20,10 +20,12 @@ public class Park : MonoBehaviour
     private IList<Employee> _employees = new List<Employee>();
     private IList<Ride> _rides = new List<Ride>();
     private IList<Shop> _shops = new List<Shop>();
+    private IList<Award> _awards = new List<Award>();
 
     public event EventHandler OnGuestsCountChange;
     public event EventHandler OnBankrollChange;
     public event EventHandler OnParkOperationsChange; // new ride, shop, campaign, employee
+    public event EventHandler OnNewAwardReceived;
 
     public Timer Timer { set { _timer = value; } }
     public IEnumerable<AdvertisingCampaign> AdvertisingCampaigns
@@ -87,6 +89,8 @@ public class Park : MonoBehaviour
             return _computedSpawnRate;
         }
     }
+
+    public IEnumerable<Award> Awards => _awards;
 
     public void Start()
     {
@@ -204,7 +208,7 @@ public class Park : MonoBehaviour
         _timer.OnNewDay += newRide.OnNewDay;
         _timer.OnNewMonth += newRide.OnNewMonth;
         _rides.Add(newRide);
-        
+
         ComputeAdmissionFee();
         OnParkOperationsChange?.Invoke(this, null);
     }
@@ -242,5 +246,11 @@ public class Park : MonoBehaviour
         _shops.Remove(shop);
         Destroy(shop);
         OnParkOperationsChange?.Invoke(this, null);
+    }
+
+    public virtual void AddAward(Award award)
+    {
+        _awards.Add(award);
+        OnNewAwardReceived?.Invoke(this, null);
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class ParkTest
 {
     private Park _park;
+    private bool _notifiedForAwardReceived = false;
 
     [SetUp]
     public void setupTest()
@@ -254,6 +255,42 @@ public class ParkTest
         _park.CloseShop(shopsBeforeRemove.Current);
         IEnumerator<Shop> shopsAfterRemove = _park.Shops.GetEnumerator();
         Assert.IsFalse(shopsAfterRemove.MoveNext());
+    }
+
+    [Test]
+    public void shouldAddAwardCorrectly()
+    {
+        Award award = MakeAward();
+
+        IEnumerator<Award> awardsBeforeAdd = _park.Awards.GetEnumerator();
+        Assert.IsFalse(awardsBeforeAdd.MoveNext());
+
+        _park.AddAward(award);
+        IEnumerator<Award> awardsAfterAdd = _park.Awards.GetEnumerator();
+        Assert.IsTrue(awardsAfterAdd.MoveNext());
+        Assert.AreEqual(award, awardsAfterAdd.Current);
+        Assert.IsFalse(awardsAfterAdd.MoveNext());
+    }
+
+    [Test]
+    public void shouldNotifyOnNewAwardReceived()
+    {
+        Assert.IsFalse(_notifiedForAwardReceived);
+        _park.OnNewAwardReceived += AwardReceived;
+        _park.AddAward(MakeAward());
+        Assert.IsTrue(_notifiedForAwardReceived);
+    }
+
+    private void AwardReceived(object sender, EventArgs e)
+    {
+        _notifiedForAwardReceived = true;
+    }
+
+    private static Award MakeAward()
+    {
+        GameObject t = new GameObject();
+        t.AddComponent<Award>();
+        return t.GetComponent<Award>();
     }
 
     private static AdvertisingCampaign CreateAdCampaign(float rebateToAdmissionFee = 0f, float spawnRateIncrease = 1f)
