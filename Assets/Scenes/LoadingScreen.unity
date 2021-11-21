@@ -511,7 +511,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Use the money collected to install rides, shops, start ad campaigns or
-    hire staff! These will attract more guests or increase your profits.
+    hire staff! These will attract more guests and increase your profits.
 --- !u!222 &282726008
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1484,7 +1484,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '[Or the game will start automatically in 15 seconds.]'
+  m_Text: '[Or the game will start automatically in 60 seconds.]'
 --- !u!222 &1918033797
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1523,7 +1523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cabd59028db0d76459276f89c45d558d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _waitTimeBeforeStart: 15
+  _waitTimeBeforeStart: 60
   _mainSceneName: MainGameScene
 --- !u!4 &1957626133
 Transform:
