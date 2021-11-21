@@ -3,6 +3,7 @@
 ## Download links
 
 [Download the final game](https://booink.itch.io/cart415-roller-clicker-tycoon)
+
 [Download the prototype build](https://booink.itch.io/cart415-roller-clicker-tycoon-prototype)
 
 ## General Info
