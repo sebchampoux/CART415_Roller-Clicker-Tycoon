@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System;
 public class GUIManager : MonoBehaviour
@@ -10,16 +11,24 @@ public class GUIManager : MonoBehaviour
     public TextMeshProUGUI _guestsCountText;
     public TextMeshProUGUI _moneyText;
     public TextMeshProUGUI _dateText;
+    public Text _ticketPriceText;
 
     private void Start()
     {
         _timer.OnNewDay += UpdateDateIndicator;
         _park.OnGuestsCountChange += UpdateGuestsIndicator;
         _park.OnBankrollChange += UpdateBankrollIndicator;
+        _park.OnParkOperationsChange += UpdateTicketPriceText;
 
         UpdateDateIndicator(this, null);
         UpdateGuestsIndicator(this, null);
         UpdateBankrollIndicator(this, null);
+        UpdateTicketPriceText(this, null);
+    }
+
+    private void UpdateTicketPriceText(object sender, EventArgs e)
+    {
+        _ticketPriceText.text = "Tickets price: " + _park.AdmissionFee.ToString("C");
     }
 
     private void UpdateBankrollIndicator(object sender, EventArgs e)

@@ -12,7 +12,7 @@ public class Park : MonoBehaviour
     [SerializeField] private Transform _adsPanel;
     [SerializeField] private Transform _staffPanel;
 
-    private float _admissionFee = 10f;
+    private float _admissionFee;
     private float _computedSpawnRate = 1f;
     private int _guestsCount = 0;
     private float _bankroll = 0f;
@@ -93,7 +93,7 @@ public class Park : MonoBehaviour
     public IEnumerable<Award> Awards => _awards;
     public Award LatestAward => _awards[_awards.Count - 1];
 
-    public void Start()
+    public void Awake()
     {
         ComputeAdmissionFee();
         ComputeSpawnRate();
@@ -111,6 +111,7 @@ public class Park : MonoBehaviour
 
     private void ComputeAdmissionFee()
     {
+        _admissionFee = BaseAdmissionFee;
         float contributionFromRides = 0f;
         float rebateFromAds = 0f;
         foreach (Ride ride in _rides)
