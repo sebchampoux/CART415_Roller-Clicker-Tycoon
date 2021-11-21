@@ -90,6 +90,33 @@ public class Park : MonoBehaviour
         }
     }
 
+    public float ParkMonthlyRunningCost
+    {
+        get => ComputeMonthlyCost();
+    }
+
+    private float ComputeMonthlyCost()
+    {
+        float monthlyCost = 0f;
+        foreach(Ride r in Rides)
+        {
+            monthlyCost += r.MonthlyCost;
+        }
+        foreach(Shop s in Shops)
+        {
+            monthlyCost += s.MonthlyCost;
+        }
+        foreach(AdvertisingCampaign a in AdvertisingCampaigns)
+        {
+            monthlyCost += a.MonthlyCost;
+        }
+        foreach(Employee e in Employees)
+        {
+            monthlyCost += e.MonthlyCost;
+        }
+        return monthlyCost;
+    }
+
     public IEnumerable<Award> Awards => _awards;
     public Award LatestAward => _awards[_awards.Count - 1];
 
