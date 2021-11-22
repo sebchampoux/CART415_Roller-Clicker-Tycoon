@@ -14,6 +14,18 @@ public class Cheats : MonoBehaviour
         {
             park.SpawnGuests(25);
         }
+        else if (Input.GetKeyDown(KeyCode.G))
+        {
+            park.SpawnGuests(2500);
+        }
+        else if (Input.GetKeyDown(KeyCode.K))
+        {
+            park.SpawnGuests(100000);
+        }
+        else if (Input.GetKeyDown(KeyCode.M))
+        {
+            park.SpawnGuests(1000000);
+        }
         else if (Input.GetKeyDown(KeyCode.B))
         {
             park.AddToBankroll(1000f);
